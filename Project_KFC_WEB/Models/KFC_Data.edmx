@@ -92,10 +92,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="KFC_APPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="account">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="userName" />
-          </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="passWord" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
