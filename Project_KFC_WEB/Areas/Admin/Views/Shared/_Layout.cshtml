@@ -46,8 +46,8 @@
             <nav class="navbar navbar-static-top bg-red-active" role="navigation">
                 <!-- Sidebar toggle button-->
                 @*<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>*@
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>*@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -161,15 +161,16 @@
                                 <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                             </ul>*@
                     </li>
-                    <li class="@Url.Action("Index", "Accounts")">
-                        <a href="">
-                            <i class="fa fa-dashboard"></i> <span>Dashboard</span> @*<i class="fa fa-angle-left pull-right"></i>*@
+                    <li class="">
+                        <a href="@Url.Action("Index", "Foods")">
+                            <i class="fa fa-dashboard"></i> <span>Quản lí món ăn</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
                                 <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
                                 <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                             </ul>*@
                     </li>
+                    
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -178,14 +179,8 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper bg-gray-active">
             @RenderBody()
+            <div style="height:100px;"></div>
         </div><!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.3.0
-            </div>
-            <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
-        </footer>
-
 
     </div><!-- ./wrapper -->
     <!-- jQuery 2.1.4 -->
