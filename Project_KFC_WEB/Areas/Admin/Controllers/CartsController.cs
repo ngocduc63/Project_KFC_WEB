@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -18,13 +17,12 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Carts
         public ActionResult Index()
         {
-            var carts = db.carts.Include(c => c.idFood);
-            carts = db.carts.Include(c => c.userName);
+            var carts = db.carts.Include(c => c.account).Include(c => c.food);
             return View(carts.ToList());
         }
 
         // GET: Admin/Carts/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -41,9 +39,8 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Carts/Create
         public ActionResult Create()
         {
-            ViewBag.idFood = new SelectList(db.foods, "id", "name");
             ViewBag.userName = new SelectList(db.accounts, "userName", "name");
-
+            ViewBag.idFood = new SelectList(db.foods, "id", "name");
             return View();
         }
 
@@ -52,7 +49,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,idFood,quantity,totalPrice")] cart cart)
+        public ActionResult Create([Bind(Include = "id,idFood,userName,quantity,totalPrice")] cart cart)
         {
             if (ModelState.IsValid)
             {
@@ -61,12 +58,13 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-
+            ViewBag.userName = new SelectList(db.accounts, "userName", "name", cart.userName);
+            ViewBag.idFood = new SelectList(db.foods, "id", "name", cart.idFood);
             return View(cart);
         }
 
         // GET: Admin/Carts/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -77,9 +75,8 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-           
-            ViewBag.idFood = new SelectList(db.foods, "id", "name", cart.idFood);
             ViewBag.userName = new SelectList(db.accounts, "userName", "name", cart.userName);
+            ViewBag.idFood = new SelectList(db.foods, "id", "name", cart.idFood);
             return View(cart);
         }
 
@@ -88,7 +85,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,idFood,quantity,totalPrice")] cart cart)
+        public ActionResult Edit([Bind(Include = "id,idFood,userName,quantity,totalPrice")] cart cart)
         {
             if (ModelState.IsValid)
             {
@@ -96,12 +93,13 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.userName = new SelectList(db.accounts, "userName", "name", cart.userName);
             ViewBag.idFood = new SelectList(db.foods, "id", "name", cart.idFood);
             return View(cart);
         }
 
         // GET: Admin/Carts/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -118,7 +116,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // POST: Admin/Carts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
             cart cart = db.carts.Find(id);
             db.carts.Remove(cart);

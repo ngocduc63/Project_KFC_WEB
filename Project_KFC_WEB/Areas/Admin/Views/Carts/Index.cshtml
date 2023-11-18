@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,94 +57,101 @@
         </section>*@
     <!-- Main content -->
     <section class="content">
-        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Quản Lí Giỏ Hàng </span>
+        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Quản Lí Giỏ Hàng</span>
 
         <div class="row">
             <div class="col-xs-12">
                 <div class="box ">
                     <div class="box-header">
-                        <a href="@Url.Action("Create")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tạo loại món ăn</a>
+                        <a href="@Url.Action("Create")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tạo Sản Phẩm</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <table class="table">
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.id)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.account.name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.food.name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.food.image)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.quantity)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.totalPrice)
-                                </th>
-                                <th></th>
-                            </tr>
-
-                            @foreach (var item in Model)
-                            {
+                        <table id="example" class="table table-bordered table-striped">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.account.name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.food.name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.food.image)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.quantity)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.totalPrice)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                                    </td>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.id)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.account.name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.food.name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.food.image)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.food.price)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.quantity)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.totalPrice)
+                                    </th>
+                                    <th></th>
                                 </tr>
-                            }
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.account.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.food.name)
+                                        </td>
+                                        <td>
+                                            <img src="~/Upload/@item.food.image" style="width: 200px; height:100%" />
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.food.price)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.quantity)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.totalPrice)
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "Carts", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                            <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "Carts", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            </div><!-- ./wrapper -->
+            <!-- jQuery 2.1.4 -->
+            <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+            <!-- Bootstrap 3.3.5 -->
+            <script src="~/Areas/Admin//Data/bootstrap/js/bootstrap.min.js"></script>
+            <!-- SlimScroll -->
+            <script src="~/Areas/Admin//Data/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+            <!-- FastClick -->
+            <script src="~/Areas/Admin//Data/plugins/fastclick/fastclick.min.js"></script>
+            <!-- AdminLTE App -->
+            <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
+            <!-- AdminLTE for demo purposes -->
+            <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
 
-                        </table>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        </div><!-- ./wrapper -->
-        <!-- jQuery 2.1.4 -->
-        <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-        <!-- Bootstrap 3.3.5 -->
-        <script src="~/Areas/Admin//Data/bootstrap/js/bootstrap.min.js"></script>
-        <!-- SlimScroll -->
-        <script src="~/Areas/Admin//Data/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <!-- FastClick -->
-        <script src="~/Areas/Admin//Data/plugins/fastclick/fastclick.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
+            <!--script custom page-->
+            <!-- DataTables -->
+            <script src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
+            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
+            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
 
-        <!--script custom page-->
-        <!-- DataTables -->
-        <script src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
-        <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
-
-        <!-- page script -->
-        <!--end script custom page-->
-</body>
+            <!-- page script -->
+            <!--end script custom page-->
+    </body>
 </html>
-
