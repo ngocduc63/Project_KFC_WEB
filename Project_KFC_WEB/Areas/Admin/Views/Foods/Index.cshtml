@@ -1,0 +1,169 @@
+﻿@model IEnumerable<Project_KFC_WEB.Models.food>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/skins/_all-skins.min.css">
+
+
+    <!--css custom page-->
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.css">
+
+    <!--end css custom page-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <!-- Left side column. contains the logo and sidebar -->
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Content Header (Page header) -->
+    @*<section class="content-header">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                    </div>
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                        Success alert preview. This alert is dismissable.
+                    </div>
+                </div>
+            </div>
+        </section>*@
+    <!-- Main content -->
+    <section class="content">
+        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Quản Lí Món Ăn</span>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box ">
+                    <div class="box-header">
+                        <a href="@Url.Action("Create")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tạo món ăn</a>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.id)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.foodCategory.name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.image)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.price)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.discount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.timeSellStart)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.timeSellEnd)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var item in Model)
+                                    {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.foodCategory.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.price)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.discount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.timeSellStart)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.timeSellEnd)
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "Foods", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                        <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "Foods", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
+                                    </td>
+                                </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            </div><!-- ./wrapper -->
+            <!-- jQuery 2.1.4 -->
+            <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+            <!-- Bootstrap 3.3.5 -->
+            <script src="~/Areas/Admin//Data/bootstrap/js/bootstrap.min.js"></script>
+            <!-- SlimScroll -->
+            <script src="~/Areas/Admin//Data/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+            <!-- FastClick -->
+            <script src="~/Areas/Admin//Data/plugins/fastclick/fastclick.min.js"></script>
+            <!-- AdminLTE App -->
+            <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
+            <!-- AdminLTE for demo purposes -->
+            <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
+
+            <!--script custom page-->
+            <!-- DataTables -->
+            <script src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
+            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
+            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
+
+            <!-- page script -->
+            <!--end script custom page-->
+    </body>
+</html>
