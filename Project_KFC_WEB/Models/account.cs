@@ -9,6 +9,12 @@ namespace Project_KFC_WEB.Models
     [Table("account")]
     public partial class account
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public account()
+        {
+            carts = new HashSet<cart>();
+        }
+
         [Key]
         [StringLength(50)]
         public string userName { get; set; }
@@ -16,13 +22,14 @@ namespace Project_KFC_WEB.Models
         [StringLength(50)]
         public string passWord { get; set; }
 
-        [StringLength(50)]
         public string name { get; set; }
 
-        [StringLength(50)]
         public string address { get; set; }
 
-        [StringLength(50)]
+        [StringLength(10)]
         public string phone { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cart> carts { get; set; }
     }
 }

@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\accountsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CartsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FoodCategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\FoodsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -255,6 +256,11 @@
     <Content Include="Areas\Admin\Views\Foods\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Foods\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Foods\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Carts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Carts\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Carts\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Carts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Carts\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -282,7 +288,7 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\NewFolder1\" />
+    <Folder Include="App_Data\" />
     <Folder Include="Upload\" />
   </ItemGroup>
   <ItemGroup>

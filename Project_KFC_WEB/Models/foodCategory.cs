@@ -15,13 +15,10 @@ namespace Project_KFC_WEB.Models
             foods = new HashSet<food>();
         }
 
-        [StringLength(50)]
-        public string id { get; set; }
+        public int id { get; set; }
 
-        [StringLength(50)]
         public string name { get; set; }
 
-        [StringLength(50)]
         public string image { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

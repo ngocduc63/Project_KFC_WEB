@@ -8,7 +8,7 @@ namespace Project_KFC_WEB.Models
     public partial class KFC_Data : DbContext
     {
         public KFC_Data()
-            : base("name=KFC_Data_Model")
+            : base("name=KFC_Data")
         {
         }
 
@@ -29,6 +29,14 @@ namespace Project_KFC_WEB.Models
 
             modelBuilder.Entity<account>()
                 .Property(e => e.phone)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<cart>()
+                .Property(e => e.userName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<food>()
+                .Property(e => e.description)
                 .IsUnicode(false);
 
             modelBuilder.Entity<food>()

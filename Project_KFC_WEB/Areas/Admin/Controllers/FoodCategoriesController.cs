@@ -22,13 +22,13 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         }
 
         // GET: Admin/FoodCategories/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            foodCategory foodCategory = db.foodCategories.Find(id);
+            foodCategory foodCategory = db.foodCategories.FirstOrDefault((item) => item.id == id);
             if (foodCategory == null)
             {
                 return HttpNotFound();
@@ -59,6 +59,17 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                     foodCategory.image = fileName;
                 }
 
+                var lastFoodCategory = db.foodCategories.OrderByDescending(fc => fc.id).FirstOrDefault();
+
+                if (lastFoodCategory != null)
+                {
+                    foodCategory.id = lastFoodCategory.id + 1;
+                }
+                else
+                {
+                    foodCategory.id = 1;
+                }
+
                 db.foodCategories.Add(foodCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -68,13 +79,13 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         }
 
         // GET: Admin/FoodCategories/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            foodCategory foodCategory = db.foodCategories.Find(id);
+            foodCategory foodCategory = db.foodCategories.FirstOrDefault((item) => item.id == id);
             if (foodCategory == null)
             {
                 return HttpNotFound();
@@ -97,23 +108,40 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                     string path = Path.Combine(Server.MapPath("~/Upload"), fileName);
                     imageFile.SaveAs(path);
                     foodCategory.image = fileName;
+                    db.Entry(foodCategory).State = EntityState.Modified;
+                }
+                else
+                {
+                    var existingFoodCategory = db.foodCategories.FirstOrDefault(item => item.id == foodCategory.id);
+
+                    if (existingFoodCategory != null)
+                    {
+                        existingFoodCategory.name = foodCategory.name;
+                        db.Entry(existingFoodCategory).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        return HttpNotFound();
+                    }
+                    
                 }
 
-                db.Entry(foodCategory).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(foodCategory);
         }
 
+
         // GET: Admin/FoodCategories/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            foodCategory foodCategory = db.foodCategories.Find(id);
+            foodCategory foodCategory = db.foodCategories.FirstOrDefault((item) => item.id == id);
             if (foodCategory == null)
             {
                 return HttpNotFound();
@@ -124,9 +152,9 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // POST: Admin/FoodCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            foodCategory foodCategory = db.foodCategories.Find(id);
+            foodCategory foodCategory = db.foodCategories.FirstOrDefault((item) => item.id == id);
             db.foodCategories.Remove(foodCategory);
             db.SaveChanges();
             return RedirectToAction("Index");

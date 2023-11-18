@@ -9,15 +9,18 @@ namespace Project_KFC_WEB.Models
     [Table("cart")]
     public partial class cart
     {
-        [StringLength(50)]
-        public string id { get; set; }
+        public int id { get; set; }
+
+        public int? idFood { get; set; }
 
         [StringLength(50)]
-        public string idFood { get; set; }
+        public string userName { get; set; }
 
         public int? quantity { get; set; }
 
         public double? totalPrice { get; set; }
+
+        public virtual account account { get; set; }
 
         public virtual food food { get; set; }
     }

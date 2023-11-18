@@ -15,23 +15,19 @@ namespace Project_KFC_WEB.Models
             carts = new HashSet<cart>();
         }
 
-        [StringLength(50)]
-        public string id { get; set; }
+        public int id { get; set; }
 
-        [StringLength(50)]
-        public string idCategory { get; set; }
+        public int? idCategory { get; set; }
 
-        [StringLength(50)]
         public string name { get; set; }
 
-        [StringLength(50)]
         public string image { get; set; }
 
         public double? price { get; set; }
 
         public double? discount { get; set; }
 
-        [StringLength(100)]
+        [Column(TypeName = "text")]
         public string description { get; set; }
 
         [Column(TypeName = "date")]
