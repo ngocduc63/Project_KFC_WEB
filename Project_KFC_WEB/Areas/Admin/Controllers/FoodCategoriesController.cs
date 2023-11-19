@@ -23,7 +23,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 
             if(valueSearch != null)
             {
-                foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.ToLower()));
+                foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
             }
 
             return View(foodCategories);

@@ -40,7 +40,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 
         public List<food> SrearchFood(List<food> foods, string selectedCategoryOption, string selectedOptionPrice, string valueSearch, string checkSale)
         {
-            if (selectedCategoryOption != "") foods = foods.FindAll(item => item.foodCategory.name.ToLower().Equals(selectedCategoryOption.ToLower()));
+            if (selectedCategoryOption != "") foods = foods.FindAll(item => item.foodCategory.name.ToLower().Equals(selectedCategoryOption.Trim().ToLower()));
 
             if (selectedOptionPrice != "")
             {
@@ -75,7 +75,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                 }
             }
 
-            if (valueSearch != "") foods = foods.FindAll(item => item.name.ToLower().Contains(valueSearch.ToLower()));
+            if (valueSearch != "") foods = foods.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
 
             if (checkSale != null) foods = checkSale.Contains("on") ? foods.FindAll(item => item.discount > 0) : foods;
 

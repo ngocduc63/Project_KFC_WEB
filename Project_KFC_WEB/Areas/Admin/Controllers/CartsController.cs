@@ -15,11 +15,38 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         private KFC_Data db = new KFC_Data();
 
         // GET: Admin/Carts
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            var carts = db.carts.Include(c => c.account).Include(c => c.food);
-            return View(carts.ToList());
+            var carts = db.carts.Include(c => c.account).Include(c => c.food).ToList();
+
+            int itemsPerPage = 5;
+            int totalItems = carts.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+            // Đảm bảo rằng trang không vượt quá số trang thực tế
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            var startIndex = (page - 1) * itemsPerPage;
+            var endIndex = Math.Min(startIndex + itemsPerPage - 1, totalItems - 1);
+
+            List<cart> cartPage;
+
+            if (startIndex < 0 || startIndex >= totalItems)
+            {
+                cartPage = null;
+            }
+            else
+            {
+                cartPage = carts.GetRange(startIndex, endIndex - startIndex + 1);
+            }
+
+            ViewBag.currentPage = page;
+            Session["currentPageCart"] = page;
+            ViewBag.totalPages = totalPages;
+
+            return View(cartPage);
         }
+
 
         // GET: Admin/Carts/Details/5
         public ActionResult Details(int? id)

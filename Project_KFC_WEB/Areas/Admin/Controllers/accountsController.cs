@@ -26,19 +26,19 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                 {
                     if (selectedOption.Contains("đăng"))
                     {
-                        accounts = accounts.FindAll(item => item.userName.ToLower().Contains(valueSearch.ToLower()));
+                        accounts = accounts.FindAll(item => item.userName.ToLower().Contains(valueSearch.Trim().ToLower()));
                     }
                     else if (selectedOption.Contains("người"))
                     {
-                        accounts = accounts.FindAll(item => item.name.ToLower().Contains(valueSearch.ToLower()));
+                        accounts = accounts.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
                     }
                     else if (selectedOption.Contains("số"))
                     {
-                        accounts = accounts.FindAll(item => item.phone.Contains(valueSearch));
+                        accounts = accounts.FindAll(item => item.phone.Contains(valueSearch.Trim()));
                     }
                     else if (selectedOption.Contains("chỉ"))
                     {
-                        accounts = accounts.FindAll(item => item.address.ToLower().Contains(valueSearch.ToLower()));
+                        accounts = accounts.FindAll(item => item.address.ToLower().Contains(valueSearch.Trim().ToLower()));
                     }
                 }
             }
