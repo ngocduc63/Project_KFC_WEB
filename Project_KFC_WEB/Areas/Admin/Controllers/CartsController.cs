@@ -41,13 +41,16 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                 }
             }
 
-            if (isSearching) carts = Session["listCart"] as List<cart>;
+            if (isSearching) 
+            {
+                carts = Session["listCart"] as List<cart>;
+                if (carts.ToList().Count() == 0) Session["isSearchingCart"] = false;
+            }
 
             int itemsPerPage = 5;
             int totalItems = carts.Count();
             int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
 
-            // Đảm bảo rằng trang không vượt quá số trang thực tế
             page = Math.Max(1, Math.Min(page, totalPages));
 
             var startIndex = (page - 1) * itemsPerPage;
