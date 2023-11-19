@@ -18,8 +18,69 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Foods
         public ActionResult Index()
         {
-            var foods = db.foods.Include(f => f.foodCategory);
-            return View(foods.ToList());
+            var foods = db.foods.Include(f => f.foodCategory).ToList();
+
+            ViewBag.foodCategories = db.foodCategories.ToList();
+
+            var selectedCategoryOption = Request.QueryString["selectedCategoryOption"];
+            var selectedOptionPrice = Request.QueryString["selectedOptionPrice"];
+            var checkSale = Request.QueryString["checkSale"];
+            var valueSearch = Request.QueryString["valueSearch"];
+
+            if (selectedCategoryOption != null
+              || selectedOptionPrice != null
+              || valueSearch != null
+              || checkSale != null)
+            {
+                foods = SrearchFood(foods, selectedCategoryOption, selectedOptionPrice, valueSearch, checkSale);
+            }
+
+            return View(foods);
+        }
+
+        public List<food> SrearchFood(List<food> foods, string selectedCategoryOption, string selectedOptionPrice, string valueSearch, string checkSale)
+        {
+            if (selectedCategoryOption != "") foods = foods.FindAll(item => item.foodCategory.name.ToLower().Equals(selectedCategoryOption.ToLower()));
+
+            if (selectedOptionPrice != "")
+            {
+                var number = Convert.ToInt32(string.Join("", selectedOptionPrice.Split('-')[0].Trim().Split('.')));
+
+                if (number == 0)
+                {
+                    foods = foods.FindAll(item => item.price >= 0 && item.price < 10000);
+                }
+                else if (number == 10000)
+                {
+                    foods = foods.FindAll(item => item.price >= 10000 && item.price < 50000);
+                }
+                else if (number == 50000)
+                {
+                    foods = foods.FindAll(item => item.price >= 50000 && item.price < 100000);
+                }
+                else if (number == 100000)
+                {
+                    foods = foods.FindAll(item => item.price >= 100000 && item.price < 500000);
+
+                }
+                else if (number == 500000)
+                {
+                    foods = foods.FindAll(item => item.price >= 500000 && item.price < 1000000);
+
+                }
+                else if (number == 1000000)
+                {
+                    foods = foods.FindAll(item => item.price >= 1000000);
+
+                }
+            }
+
+            if (valueSearch != "") foods = foods.FindAll(item => item.name.ToLower().Contains(valueSearch.ToLower()));
+
+            if (checkSale != null) foods = checkSale.Contains("on") ? foods.FindAll(item => item.discount > 0) : foods;
+
+
+            return foods;
         }
 
         // GET: Admin/Foods/Details/5
@@ -113,7 +174,8 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                     food.image = fileName;
 
                     db.Entry(food).State = EntityState.Modified;
-                }else
+                }
+                else
                 {
                     var existingFood = db.foods.FirstOrDefault(item => item.id == food.id);
 

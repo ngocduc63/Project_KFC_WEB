@@ -58,7 +58,15 @@
     <!-- Main content -->
     <section class="content">
         <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Quản Lí Loại Món Ăn</span>
-
+        @using (Html.BeginForm("Index", "FoodCategories", FormMethod.Get, new { @class = "sidebar-form", style = "border: none;" }))
+        {
+            <div class="input-group" style="margin-top: 20px;">
+                <input type="text" name="valueSearch" class="form-control" placeholder="Nhập loại món ăn muốn tìm...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        }
         <div class="row">
             <div class="col-xs-12">
                 <div class="box ">
@@ -85,22 +93,22 @@
                                 <tr>
                                     @foreach (var item in Model)
                                     {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.name)
-                                    </td>
-                                    <td>
-                                        <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
-                                    </td>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.name)
+                                        </td>
+                                        <td>
+                                            <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
+                                        </td>
 
-                                    <td>
-                                        <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "FoodCategories", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
-                                        <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "FoodCategories", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "FoodCategories", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                            <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "FoodCategories", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
+                                        </td>
+                                    </tr>
                                 }
                                 </tbody>
                             </table>
@@ -130,6 +138,6 @@
 
             <!-- page script -->
             <!--end script custom page-->
-    </body>
+</body>
 </html>
 

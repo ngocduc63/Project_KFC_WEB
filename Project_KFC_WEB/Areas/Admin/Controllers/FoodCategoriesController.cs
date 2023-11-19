@@ -18,7 +18,15 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/FoodCategories
         public ActionResult Index()
         {
-            return View(db.foodCategories.ToList());
+            var foodCategories = db.foodCategories.ToList();
+            var valueSearch = Request.QueryString["valueSearch"];
+
+            if(valueSearch != null)
+            {
+                foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.ToLower()));
+            }
+
+            return View(foodCategories);
         }
 
         // GET: Admin/FoodCategories/Details/5

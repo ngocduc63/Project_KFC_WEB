@@ -25,7 +25,7 @@
     <!--css custom page-->
     <!-- DataTables -->
     <link rel="stylesheet" href="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.css">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!--end css custom page-->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,29 +35,52 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-        <!-- Left side column. contains the logo and sidebar -->
-        <!-- Content Wrapper. Contains page content -->
-            <!-- Content Header (Page header) -->
-            @*<section class="content-header">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                            Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
-                        </div>
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
-                            Success alert preview. This alert is dismissable.
-                        </div>
+    <!-- Left side column. contains the logo and sidebar -->
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Content Header (Page header) -->
+    @*<section class="content-header">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                    </div>
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                        Success alert preview. This alert is dismissable.
                     </div>
                 </div>
-            </section>*@
-            <!-- Main content -->
-    <section class="content">
-        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Quản Lí Tài Khoản</span>
+            </div>
+        </section>*@
+    <!-- Main content -->
 
+    <div class="content">
+        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Quản lí tài khoản</span>
+        @using (Html.BeginForm("Index", "Accounts", FormMethod.Get, new { @class = "sidebar-form", style = "height: 150px; border: none;" }))
+        {
+            <div class="dropdown" style="position: relative">
+                <input type="hidden" name="selectedOption" id="selectedOption" value="">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Chọn phương thức tìm kiếm
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a onclick="selectOption('Theo tên đăng nhập')" style="cursor: pointer">Theo tên đăng nhập</a></li>
+                    <li><a onclick="selectOption('Theo tên người dùng')" style="cursor: pointer">Theo tên người dùng</a></li>
+                    <li><a onclick="selectOption('Theo số điện thoại')" style="cursor: pointer">Theo số điện thoại</a></li>
+                    <li><a onclick="selectOption('Theo địa chỉ')" style="cursor: pointer">Theo địa chỉ</a></li>
+                    <li role="separator" class="divider"></li>
+                </ul>
+            </div>
+            <div class="input-group" style="margin-top: 20px;">
+                <input type="text" name="valueSearch" class="form-control" placeholder="Nhập ở đây...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        }
         <div class="row">
             <div class="col-xs-12">
                 <div class="box ">
@@ -118,27 +141,35 @@
                     </div><!-- /.box -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
-            </div><!-- ./wrapper -->
-            <!-- jQuery 2.1.4 -->
-            <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-            <!-- Bootstrap 3.3.5 -->
-            <script src="~/Areas/Admin//Data/bootstrap/js/bootstrap.min.js"></script>
-            <!-- SlimScroll -->
-            <script src="~/Areas/Admin//Data/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-            <!-- FastClick -->
-            <script src="~/Areas/Admin//Data/plugins/fastclick/fastclick.min.js"></script>
-            <!-- AdminLTE App -->
-            <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
-            <!-- AdminLTE for demo purposes -->
-            <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
+        </div><!-- ./wrapper -->
+        <!-- jQuery 2.1.4 -->
+        <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="~/Areas/Admin//Data/bootstrap/js/bootstrap.min.js"></script>
+        <!-- SlimScroll -->
+        <script src="~/Areas/Admin//Data/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <!-- FastClick -->
+        <script src="~/Areas/Admin//Data/plugins/fastclick/fastclick.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
 
-            <!--script custom page-->
-            <!-- DataTables -->
-            <script src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
-            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
-            <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
+        <!--script custom page-->
+        <!-- DataTables -->
+        <script type="text/javascript" src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
+        <!-- page script -->
+        <!--end script custom page-->
 
-            <!-- page script -->
-            <!--end script custom page-->
-</body>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            function selectOption(option) {
+                document.getElementById('selectedOption').value = option;
+                document.getElementById('dropdownMenu1').innerHTML = option + ' <span class="caret"></span>';
+            }
+        </script>
+    </body>
 </html>

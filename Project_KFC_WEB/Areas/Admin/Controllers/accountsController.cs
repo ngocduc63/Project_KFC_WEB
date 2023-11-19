@@ -12,12 +12,38 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 {
     public class accountsController : Controller
     {
-        private  KFC_Data db = new KFC_Data();
+        private KFC_Data db = new KFC_Data();
 
         // GET: Admin/accounts
         public ActionResult Index()
         {
-            return View(db.accounts.ToList());
+            var accounts = db.accounts.ToList();
+            var selectedOption = Request.QueryString["selectedOption"];
+            if (selectedOption != null)
+            {
+                var valueSearch = Request.QueryString["valueSearch"];
+                if (valueSearch != null)
+                {
+                    if (selectedOption.Contains("đăng"))
+                    {
+                        accounts = accounts.FindAll(item => item.userName.ToLower().Contains(valueSearch.ToLower()));
+                    }
+                    else if (selectedOption.Contains("người"))
+                    {
+                        accounts = accounts.FindAll(item => item.name.ToLower().Contains(valueSearch.ToLower()));
+                    }
+                    else if (selectedOption.Contains("số"))
+                    {
+                        accounts = accounts.FindAll(item => item.phone.Contains(valueSearch));
+                    }
+                    else if (selectedOption.Contains("chỉ"))
+                    {
+                        accounts = accounts.FindAll(item => item.address.ToLower().Contains(valueSearch.ToLower()));
+                    }
+                }
+            }
+
+            return View(accounts);
         }
 
         // GET: Admin/accounts/Details/5

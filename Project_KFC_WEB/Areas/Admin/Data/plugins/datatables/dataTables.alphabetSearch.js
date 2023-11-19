@@ -31,8 +31,8 @@ function bin ( data ) {
 }
  
  
-$(document).ready(function() {
-    var table = $('#example').DataTable();
+$(document).ready(function () {
+    var table = $('#example').dataTable;
  
     var alphabet = $('<div class="alphabet"/>').append( 'Search: ' );
     var columnData = table.column(0).data();
