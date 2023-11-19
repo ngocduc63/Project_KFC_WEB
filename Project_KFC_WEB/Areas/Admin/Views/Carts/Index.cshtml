@@ -21,7 +21,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/skins/_all-skins.min.css">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!--css custom page-->
     <!-- DataTables -->
@@ -58,7 +58,34 @@
     <!-- Main content -->
     <section class="content">
         <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; ">Quản lí giỏ hàng</span>
-
+        @using (Html.BeginForm("Index", "Carts", new { isSearching = true }, FormMethod.Get, new { @class = "sidebar-form", style = "height: 150px; border: none;" }))
+        {
+            <div style="display:flex; column-gap: 30px">
+                <div class="dropdown" style="position: relative">
+                    <input type="hidden" name="selectedOptionPrice" id="selectedPriceOption" value="">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Chọn mức giá
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" style="max-height: 100px; overflow-y: auto;">
+                        <li><a onclick="selectOptionPrice('0 - 9.000')" style="cursor: pointer">0 - 9.000</a></li>
+                        <li><a onclick="selectOptionPrice('10.000 - 49.000')" style="cursor: pointer">10.000 - 49.999</a></li>
+                        <li><a onclick="selectOptionPrice('50.000 - 99.000')" style="cursor: pointer">50.000 - 99.999</a></li>
+                        <li><a onclick="selectOptionPrice('100.000 - 499.000')" style="cursor: pointer">100.000 - 499.999</a></li>
+                        <li><a onclick="selectOptionPrice('500.000 - 1.000.000')" style="cursor: pointer">500.000 - 999.999</a></li>
+                        <li><a onclick="selectOptionPrice('1.000.000 trở lên')" style="cursor: pointer">1.000.000 trở lên</a></li>
+                        <li role="separator" class="divider"></li>
+                    </ul>
+                </div>
+                <a href="@Url.Action("Index", "Carts", new {  page = 1, isReset = true})" class="btn btn-info btn-reset" style="color: #fff !important; background-color: #5bc0de !important; border-color: #46b8da !important; ">Tải lại giỏ hàng</a>
+            </div>
+            <div class="input-group" style="margin-top: 20px;">
+                <input type="text" name="valueSearch" class="form-control" placeholder="Nhập tên nguời dùng muốn tìm...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        }
         <div class="row">
             <div class="col-xs-12">
                 <div class="box ">
@@ -127,8 +154,8 @@
                                                     <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "Carts", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
                                                 </td>
                                             </tr>
-                                            }
                                         }
+                                    }
                                     }
                                 </tbody>
                             </table>
@@ -178,7 +205,14 @@
             <script src="~/Areas/Admin//Data/plugins/datatables/jquery.dataTables.min.js"></script>
             <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.bootstrap.min.js"></script>
             <script src="~/Areas/Admin//Data/plugins/datatables/dataTables.alphabetSearch.js"></script>
-
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script>
+                function selectOptionPrice(option) {
+                    document.getElementById('selectedPriceOption').value = option;
+                    document.getElementById('dropdownMenu2').innerHTML = option + ' <span class="caret"></span>';
+                }
+            </script>
             <!-- page script -->
             <!--end script custom page-->
     </body>

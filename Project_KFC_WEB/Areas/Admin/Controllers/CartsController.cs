@@ -15,9 +15,33 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         private KFC_Data db = new KFC_Data();
 
         // GET: Admin/Carts
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(int page = 1, bool isReset = false)
         {
-            var carts = db.carts.Include(c => c.account).Include(c => c.food).ToList();
+            if (isReset) Session["isSearchingCart"] = false;
+
+            List<cart> carts = new List<cart>();
+            bool isSearching = Session["isSearchingCart"] != null ? (bool)Session["isSearchingCart"] : false;
+            var isSearchingText = Request.QueryString["isSearching"];
+
+            var selectedOptionPrice = Request.QueryString["selectedOptionPrice"];
+            var valueSearch = Request.QueryString["valueSearch"];
+
+            carts = db.carts.Include(c => c.account).Include(c => c.food).ToList();
+            if(!isSearching)
+            {
+                if (selectedOptionPrice != null || valueSearch != null)
+                {
+                    if (string.IsNullOrEmpty(selectedOptionPrice) || string.IsNullOrEmpty(valueSearch))
+                    {
+                        isSearching = true;
+                        Session["isSearchingCart"] = isSearching;
+                        carts = SearchCart(carts, selectedOptionPrice, valueSearch);
+                        Session["listCart"] = carts;
+                    }
+                }
+            }
+
+            if (isSearching) carts = Session["listCart"] as List<cart>;
 
             int itemsPerPage = 5;
             int totalItems = carts.Count();
@@ -46,7 +70,45 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 
             return View(cartPage);
         }
+        public List<cart> SearchCart(List<cart> carts, string selectedOptiontotalPrice, string valueSearch)
+        {
+            if (selectedOptiontotalPrice != "")
+            {
+                var number = Convert.ToInt32(string.Join("", selectedOptiontotalPrice.Split('-')[0].Trim().Split('.')));
 
+                if (number == 0)
+                {
+                    carts = carts.FindAll(item => item.totalPrice >= 0 && item.totalPrice < 10000);
+                }
+                else if (number == 10000)
+                {
+                    carts = carts.FindAll(item => item.totalPrice >= 10000 && item.totalPrice < 50000);
+                }
+                else if (number == 50000)
+                {
+                    carts = carts.FindAll(item => item.totalPrice >= 50000 && item.totalPrice < 100000);
+                }
+                else if (number == 100000)
+                {
+                    carts = carts.FindAll(item => item.totalPrice >= 100000 && item.totalPrice < 500000);
+
+                }
+                else if (number == 500000)
+                {
+                    carts = carts.FindAll(item => item.totalPrice >= 500000 && item.totalPrice < 1000000);
+
+                }
+                else if (number == 1000000)
+                {
+                    carts = carts.FindAll(item => item.totalPrice >= 1000000);
+
+                }
+            }
+
+            if (valueSearch != "") carts = carts.FindAll(item => item.account.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+
+            return carts;
+        }
 
         // GET: Admin/Carts/Details/5
         public ActionResult Details(int? id)
