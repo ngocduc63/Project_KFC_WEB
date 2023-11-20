@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Project_KFC_WEB.Models;
 
 namespace Project_KFC_WEB.Controllers
 {
     public class HomeController : Controller
     {
+        KFC_Data db = new KFC_Data();
+
         public ActionResult Index()
         {
-            return View();
+            return View(db.foodCategories.ToList());
         }
 
         public ActionResult About()
