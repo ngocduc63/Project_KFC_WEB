@@ -15,35 +15,86 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         private KFC_Data db = new KFC_Data();
 
         // GET: Admin/accounts
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, bool isReset = false)
         {
-            var accounts = db.accounts.ToList();
+            if (isReset) Session["isSearchingCart"] = false;
+
+            List<account> accounts = new List<account>();
+            bool isSearching = Session["isSearchingCart"] != null ? (bool)Session["isSearchingCart"] : false;
+
             var selectedOption = Request.QueryString["selectedOption"];
-            if (selectedOption != null)
+            var valueSearch = Request.QueryString["valueSearch"];
+
+            accounts = db.accounts.ToList();
+            if (!isSearching)
             {
-                var valueSearch = Request.QueryString["valueSearch"];
-                if (valueSearch != null)
+                if (!string.IsNullOrEmpty(selectedOption) && !string.IsNullOrEmpty(valueSearch))
                 {
-                    if (selectedOption.Contains("đăng"))
-                    {
-                        accounts = accounts.FindAll(item => item.userName.ToLower().Contains(valueSearch.Trim().ToLower()));
-                    }
-                    else if (selectedOption.Contains("người"))
-                    {
-                        accounts = accounts.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
-                    }
-                    else if (selectedOption.Contains("số"))
-                    {
-                        accounts = accounts.FindAll(item => item.phone.Contains(valueSearch.Trim()));
-                    }
-                    else if (selectedOption.Contains("chỉ"))
-                    {
-                        accounts = accounts.FindAll(item => item.address.ToLower().Contains(valueSearch.Trim().ToLower()));
-                    }
+                    isSearching = true;
+                    Session["isSearchingAccount"] = isSearching;
+                    accounts = SeearchAccount(accounts, selectedOption, valueSearch);
                 }
             }
 
-            return View(accounts);
+            if (isSearching)
+            {
+                accounts = Session["listAccount"] as List<account>;
+                if (accounts.ToList().Count() == 0) Session["isSearchingCart"] = false;
+                accounts = SeearchAccount(accounts, selectedOption, valueSearch);
+            }
+
+            int itemsPerPage = 5;
+            int totalItems = accounts.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            var startIndex = (page - 1) * itemsPerPage;
+            var endIndex = Math.Min(startIndex + itemsPerPage - 1, totalItems - 1);
+
+            List<account> accountPage;
+
+            if (startIndex < 0 || startIndex >= totalItems)
+            {
+                accountPage = null;
+            }
+            else
+            {
+                accountPage = accounts.GetRange(startIndex, endIndex - startIndex + 1);
+            }
+
+            ViewBag.currentPage = page;
+            Session["currentPageCart"] = page;
+            ViewBag.totalPages = totalPages;
+
+            return View(accountPage);
+        }
+
+        public List<account> SeearchAccount(List<account> accounts, string selectedOption, string valueSearch)
+        {
+            if (!string.IsNullOrEmpty(selectedOption) && !string.IsNullOrEmpty(valueSearch))
+            {
+                if (selectedOption.Contains("đăng"))
+                {
+                    accounts = accounts.FindAll(item => item.userName.ToLower().Contains(valueSearch.Trim().ToLower()));
+                }
+                else if (selectedOption.Contains("người"))
+                {
+                    accounts = accounts.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+                }
+                else if (selectedOption.Contains("số"))
+                {
+                    accounts = accounts.FindAll(item => item.phone.Contains(valueSearch.Trim()));
+                }
+                else if (selectedOption.Contains("chỉ"))
+                {
+                    accounts = accounts.FindAll(item => item.address.ToLower().Contains(valueSearch.Trim().ToLower()));
+                }
+            }
+
+            Session["listAccount"] = accounts;
+
+            return accounts;
         }
 
         // GET: Admin/accounts/Details/5

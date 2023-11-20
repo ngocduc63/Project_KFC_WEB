@@ -58,7 +58,7 @@
     <!-- Main content -->
     <section class="content">
         <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; ">Quản lí giỏ hàng</span>
-        @using (Html.BeginForm("Index", "Carts", new { isSearching = true }, FormMethod.Get, new { @class = "sidebar-form", style = "height: 150px; border: none;" }))
+        @using (Html.BeginForm("Index", "Carts", FormMethod.Get, new { @class = "sidebar-form", style = "height: 150px; border: none;" }))
         {
             <div style="display:flex; column-gap: 30px">
                 <div class="dropdown" style="position: relative">
@@ -127,35 +127,39 @@
                                         {
                                             foreach (var item in Model)
                                             {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.id)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.account.name)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.food.name)
-                                                </td>
-                                                <td>
-                                                    <img src="~/Upload/@item.food.image" style="width: 200px; height:100%" />
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.food.price)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.quantity)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.totalPrice)
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "Carts", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
-                                                    <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "Carts", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.account.name)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.food.name)
+                                                    </td>
+                                                    <td>
+                                                        <img src="~/Upload/@item.food.image" style="width: 200px; height:100%" />
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.food.price)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.quantity)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.totalPrice)
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "Carts", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                                        <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "Carts", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
-                                    }
+                                        else
+                                        {
+                                            <div class="text-danger ">Không có dữ liệu</div>
+                                        }
                                     }
                                 </tbody>
                             </table>
@@ -163,6 +167,7 @@
                     </div><!-- /.box -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
+            @* page  *@
             <div style="background-color: white; display: flex; justify-content: space-between; height: 40px; align-items: center; padding: 20px; border-radius: 4px;">
                 <div style="display:flex; column-gap: 10px">
                     <a href="@Url.Action("Index", "Carts", new {  page = 1})" class="btn btn-info">Trang đầu</a>

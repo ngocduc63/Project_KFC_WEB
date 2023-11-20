@@ -16,33 +16,70 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         private KFC_Data db = new KFC_Data();
 
         // GET: Admin/Foods
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, bool isReset = false)
         {
-            var foods = db.foods.Include(f => f.foodCategory).ToList();
+            if (isReset) Session["isSearchingCart"] = false;
 
-            ViewBag.foodCategories = db.foodCategories.ToList();
+            List<food> foods = new List<food>();
+            bool isSearching = Session["isSearchingFood"] != null ? (bool)Session["isSearchingFood"] : false;
 
             var selectedCategoryOption = Request.QueryString["selectedCategoryOption"];
             var selectedOptionPrice = Request.QueryString["selectedOptionPrice"];
             var checkSale = Request.QueryString["checkSale"];
             var valueSearch = Request.QueryString["valueSearch"];
 
-            if (selectedCategoryOption != null
-              || selectedOptionPrice != null
-              || valueSearch != null
-              || checkSale != null)
+            foods = db.foods.Include(c => c.foodCategory).ToList();
+            ViewBag.foodCategories = db.foodCategories.ToList();
+
+            if (!isSearching)
             {
+                    if (!string.IsNullOrEmpty(selectedOptionPrice) || !string.IsNullOrEmpty(valueSearch) || !string.IsNullOrEmpty(checkSale) || !string.IsNullOrEmpty(selectedCategoryOption))
+                    {
+                        isSearching = true;
+                        Session["isSearchingFood"] = isSearching;
+                        foods = SrearchFood(foods, selectedCategoryOption, selectedOptionPrice, valueSearch, checkSale);
+                    }
+            }
+
+            if (isSearching)
+            {
+                foods = Session["listFood"] as List<food>;
+                if (foods.ToList().Count() == 0) Session["isSearchingFood"] = false;
                 foods = SrearchFood(foods, selectedCategoryOption, selectedOptionPrice, valueSearch, checkSale);
             }
 
-            return View(foods);
+            int itemsPerPage = 5;
+            int totalItems = foods.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            var startIndex = (page - 1) * itemsPerPage;
+            var endIndex = Math.Min(startIndex + itemsPerPage - 1, totalItems - 1);
+
+            List<food> foodPage;
+
+            if (startIndex < 0 || startIndex >= totalItems)
+            {
+                foodPage = null;
+            }
+            else
+            {
+                foodPage = foods.GetRange(startIndex, endIndex - startIndex + 1);
+            }
+
+            ViewBag.currentPage = page;
+            Session["currentPageFood"] = page;
+            ViewBag.totalPages = totalPages;
+
+            return View(foodPage);
         }
 
         public List<food> SrearchFood(List<food> foods, string selectedCategoryOption, string selectedOptionPrice, string valueSearch, string checkSale)
         {
-            if (selectedCategoryOption != "") foods = foods.FindAll(item => item.foodCategory.name.ToLower().Equals(selectedCategoryOption.Trim().ToLower()));
+            if (!string.IsNullOrEmpty(selectedCategoryOption)) foods = foods.FindAll(item => item.foodCategory.name.ToLower().Equals(selectedCategoryOption.Trim().ToLower()));
 
-            if (selectedOptionPrice != "")
+            if (!string.IsNullOrEmpty(selectedOptionPrice))
             {
                 var number = Convert.ToInt32(string.Join("", selectedOptionPrice.Split('-')[0].Trim().Split('.')));
 
@@ -75,10 +112,11 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                 }
             }
 
-            if (valueSearch != "") foods = foods.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+            if (!string.IsNullOrEmpty(valueSearch)) foods = foods.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
 
             if (checkSale != null) foods = checkSale.Contains("on") ? foods.FindAll(item => item.discount > 0) : foods;
 
+            Session["listFood"] = foods;
 
             return foods;
         }

@@ -21,30 +21,26 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 
             List<cart> carts = new List<cart>();
             bool isSearching = Session["isSearchingCart"] != null ? (bool)Session["isSearchingCart"] : false;
-            var isSearchingText = Request.QueryString["isSearching"];
 
             var selectedOptionPrice = Request.QueryString["selectedOptionPrice"];
             var valueSearch = Request.QueryString["valueSearch"];
 
             carts = db.carts.Include(c => c.account).Include(c => c.food).ToList();
-            if(!isSearching)
+            if (!isSearching)
             {
-                if (selectedOptionPrice != null || valueSearch != null)
+                if (!string.IsNullOrEmpty(selectedOptionPrice) || !string.IsNullOrEmpty(valueSearch))
                 {
-                    if (string.IsNullOrEmpty(selectedOptionPrice) || string.IsNullOrEmpty(valueSearch))
-                    {
-                        isSearching = true;
-                        Session["isSearchingCart"] = isSearching;
-                        carts = SearchCart(carts, selectedOptionPrice, valueSearch);
-                        Session["listCart"] = carts;
-                    }
+                    isSearching = true;
+                    Session["isSearchingCart"] = isSearching;
+                    carts = SearchCart(carts, selectedOptionPrice, valueSearch);
                 }
             }
 
-            if (isSearching) 
+            if (isSearching)
             {
                 carts = Session["listCart"] as List<cart>;
                 if (carts.ToList().Count() == 0) Session["isSearchingCart"] = false;
+                carts = SearchCart(carts, selectedOptionPrice, valueSearch);
             }
 
             int itemsPerPage = 5;
@@ -75,7 +71,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         }
         public List<cart> SearchCart(List<cart> carts, string selectedOptiontotalPrice, string valueSearch)
         {
-            if (selectedOptiontotalPrice != "")
+            if (!string.IsNullOrEmpty(selectedOptiontotalPrice))
             {
                 var number = Convert.ToInt32(string.Join("", selectedOptiontotalPrice.Split('-')[0].Trim().Split('.')));
 
@@ -108,7 +104,9 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                 }
             }
 
-            if (valueSearch != "") carts = carts.FindAll(item => item.account.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+            if (!string.IsNullOrEmpty(valueSearch)) carts = carts.FindAll(item => item.account.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+
+            Session["listCart"] = carts;
 
             return carts;
         }

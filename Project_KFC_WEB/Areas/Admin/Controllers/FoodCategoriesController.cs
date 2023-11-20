@@ -16,17 +16,65 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         private KFC_Data db = new KFC_Data();
 
         // GET: Admin/FoodCategories
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, bool isReset = false)
         {
-            var foodCategories = db.foodCategories.ToList();
+
+            if (isReset) Session["isSearchingFoodCategory"] = false;
+
+            List<foodCategory> foodCategories = new List<foodCategory>();
+            bool isSearching = Session["isSearchingFoodCategory"] != null ? (bool)Session["isSearchingFoodCategory"] : false;
+
             var valueSearch = Request.QueryString["valueSearch"];
 
-            if(valueSearch != null)
+            foodCategories = db.foodCategories.ToList();
+
+            if (!isSearching)
             {
-                foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+                if (!string.IsNullOrEmpty(valueSearch))
+                {
+                    isSearching = true;
+                    foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+                    Session["listFoodCategoty"] = foodCategories;
+                }
             }
 
-            return View(foodCategories);
+            if (isSearching)
+            {
+                foodCategories = Session["listFoodCategoty"] as List<foodCategory>;
+                if (foodCategories.ToList().Count() == 0) Session["isSearchingFoodCategory"] = false;
+                if (!string.IsNullOrEmpty(valueSearch))
+                {
+                    foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+                    Session["listFoodCategoty"] = foodCategories;
+                }
+            }
+
+            int itemsPerPage = 5;
+            int totalItems = foodCategories.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            var startIndex = (page - 1) * itemsPerPage;
+            var endIndex = Math.Min(startIndex + itemsPerPage - 1, totalItems - 1);
+
+            List<foodCategory> foodCategoryPage;
+
+            if (startIndex < 0 || startIndex >= totalItems)
+            {
+                foodCategoryPage = null;
+            }
+            else
+            {
+                foodCategoryPage = foodCategories.GetRange(startIndex, endIndex - startIndex + 1);
+            }
+
+            ViewBag.currentPage = page;
+            Session["currentPageFood"] = page;
+            ViewBag.totalPages = totalPages;
+
+
+            return View(foodCategoryPage);
         }
 
         // GET: Admin/FoodCategories/Details/5
@@ -131,7 +179,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                     {
                         return HttpNotFound();
                     }
-                    
+
                 }
 
                 db.SaveChanges();
