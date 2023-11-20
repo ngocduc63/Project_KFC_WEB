@@ -93,25 +93,35 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @foreach (var item in Model)
+                                    @if (Model != null)
                                     {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.id)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.name)
-                                        </td>
-                                        <td>
-                                            <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
-                                        </td>
 
-                                        <td>
-                                            <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "FoodCategories", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
-                                            <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "FoodCategories", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
-                                        </td>
-                                    </tr>
+                                        foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.name)
+                                            </td>
+                                            <td>
+                                                <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
+                                            </td>
+
+                                            <td>
+                                                <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "FoodCategories", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                                <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "FoodCategories", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
+                                else
+                                {
+                                    <div class="text-danger ">Không có dữ liệu</div>
+
+                                }
+
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
@@ -166,6 +176,6 @@
 
             <!-- page script -->
             <!--end script custom page-->
-</body>
+    </body>
 </html>
 
