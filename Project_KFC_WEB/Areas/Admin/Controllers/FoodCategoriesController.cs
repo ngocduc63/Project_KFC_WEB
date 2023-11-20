@@ -70,7 +70,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
             }
 
             ViewBag.currentPage = page;
-            Session["currentPageFood"] = page;
+            Session["currentPageFoodCategory"] = page;
             ViewBag.totalPages = totalPages;
 
 
