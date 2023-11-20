@@ -64,7 +64,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
             }
 
             ViewBag.currentPage = page;
-            Session["currentPageCart"] = page;
+            Session["currentPageAccount"] = page;
             ViewBag.totalPages = totalPages;
 
             return View(accountPage);
