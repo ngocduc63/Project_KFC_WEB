@@ -1,16 +1,17 @@
 ﻿
-@model IEnumerable<Project_KFC_WEB.Models.foodCategory>
+@model IEnumerable<Project_KFC_WEB.Models.food>
 
 @{
     ViewBag.Title = "Home Page";
+    var foodCategories = ViewBag.foodCategories;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
     .zoom {
-        transition: transform .2s;
+        transition: transform .4s ease;
     }
 
-    .zoom:hover {
+    .item:hover .zoom{
         transform: scale(1.1);
     }
 </style>
@@ -61,10 +62,10 @@
     </div>
 
     <div class="row">
-        @foreach (var item in Model)
+        @foreach (var item in foodCategories)
         {
             <div class="col-lg-3 col-md-12 mb-3">
-                <a style="display: flex; flex-direction: column; height: 280px; box-shadow: 0 1px 6px 0 rgba(0,0,0,.2); border-radius: 4px; background-color: white; cursor:pointer">
+                <a class="item" style="display: flex; flex-direction: column; height: 280px; box-shadow: 0 1px 6px 0 rgba(0,0,0,.2); border-radius: 4px; background-color: white; cursor:pointer">
                     <div class="bg-image" style="height: 230px; overflow: hidden">
                         <img src="~/Upload/@item.image" style="width: 100%" class="zoom"/>
                     </div>
@@ -77,4 +78,16 @@
         }
     </div>
 </div>
+
+<div class="col-md-12">
+    <div style="display: flex; align-items: center; column-gap: 20px">
+        <img src="~/Data/images/logo_kfc.png" alt="logo" style="width: 10%">
+        <span style="font-size: xx-large; font-weight: 700; color: #343a40">Có thể bạn sẽ thích món này</span>
+        <div style="width: 50% ; height: 2px; background-color: #6c757d; margin-top: 10px;"></div>
+    </div>
+
+@* combo foods *@ 
+    <div class="row">
+        
+    </div>
 </div>

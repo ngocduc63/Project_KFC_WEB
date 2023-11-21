@@ -23,7 +23,7 @@ create table food(
 	image nvarchar(max),
 	price float,
 	discount float,
-	description text,
+	description nvarchar(max),
 	timeSellStart date,
 	timeSellEnd date,
 	foreign key (idCategory) references foodCategory (id)

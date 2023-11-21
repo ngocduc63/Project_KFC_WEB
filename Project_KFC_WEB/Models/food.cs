@@ -27,7 +27,6 @@ namespace Project_KFC_WEB.Models
 
         public double? discount { get; set; }
 
-        [Column(TypeName = "text")]
         public string description { get; set; }
 
         [Column(TypeName = "date")]

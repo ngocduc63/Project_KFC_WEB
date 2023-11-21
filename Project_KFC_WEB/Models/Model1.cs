@@ -36,10 +36,6 @@ namespace Project_KFC_WEB.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<food>()
-                .Property(e => e.description)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<food>()
                 .HasMany(e => e.carts)
                 .WithOptional(e => e.food)
                 .HasForeignKey(e => e.idFood);

@@ -11,9 +11,11 @@ namespace Project_KFC_WEB.Controllers
     {
         KFC_Data db = new KFC_Data();
 
-        public ActionResult Index()
+        public ActionResult Index() 
         {
-            return View(db.foodCategories.ToList());
+            ViewBag.foodCategories = db.foodCategories.ToList();
+
+            return View(db.foods.ToList());
         }
 
         public ActionResult About()

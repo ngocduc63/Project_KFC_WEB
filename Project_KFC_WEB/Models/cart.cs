@@ -18,16 +18,7 @@ namespace Project_KFC_WEB.Models
 
         public int? quantity { get; set; }
 
-        public double? totalPrice {
-            get
-            {
-                if (quantity.HasValue && food != null)
-                {
-                    return quantity.Value * food.price;
-                }
-                return 0; 
-            }
-        }
+        public double? totalPrice { get; set; }
 
         public virtual account account { get; set; }
 

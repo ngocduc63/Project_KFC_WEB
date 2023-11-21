@@ -19,9 +19,25 @@
 
 </head>
 <style>
-    .my-top:hover {
-        color: #dc3545 !important;
+    .my-top {
+        display: inline-block;
+        color: #000 !important;
+        text-decoration: none;
     }
+
+    .my-top::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #000;
+        transition: width .3s;
+    }
+
+    .my-top:hover::after {
+        width: 100%;
+    }
+   
 </style>
 <body>
 
@@ -50,7 +66,7 @@
                         <nav class="site-navigation text-right text-md-center" role="navigation">
                             <ul class="site-menu js-clone-nav d-none d-lg-block">
                                 <li>
-                                    <a class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">THỰC ĐƠN</a>
+                                    <a class="my-top header-item" style="font-weight: 700; font-size: 20px; cursor: pointer;">THỰC ĐƠN</a>
                                 </li>
                                 <li><a class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">KHUYẾN MÃI</a></li>
                                 <li><a class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">VỀ NHÀ HÀNG</a></li>
@@ -70,27 +86,27 @@
             </div>
         </div>
         <div>
-        <div style="width: 100vw;">
-            @RenderBody()
-        </div>
-
-        <footer class="site-footer custom-border-top">
-            <div class="container">
-
-
+            <div style="">
+                @RenderBody()
             </div>
-    </div>
-    <div class="row pt-5 mt-5 text-center">
-        <div class="col-md-12">
-            <p>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;
-                <script>document.write(new Date().getFullYear());</script> All rights reserved | This code is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-danger">Đức Độ</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-        </div>
 
-    </div>
+            <footer class="site-footer custom-border-top">
+                <div class="container">
+
+
+                </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+            <div class="col-md-12">
+                <p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This code is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-danger">Đức Độ</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
+
+        </div>
     </div>
     </footer>
     </div>
