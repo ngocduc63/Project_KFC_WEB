@@ -18,7 +18,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Foods
         public ActionResult Index(int page = 1, bool isReset = false)
         {
-            if (isReset) Session["isSearchingCart"] = false;
+            if (isReset) Session["isSearchingFood"] = false;
 
             List<food> foods = new List<food>();
             bool isSearching = Session["isSearchingFood"] != null ? (bool)Session["isSearchingFood"] : false;

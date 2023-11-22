@@ -8,9 +8,19 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         // GET: Admin/Home
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult Login(string returnUrl)
+        {
+            if (returnUrl != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
     }

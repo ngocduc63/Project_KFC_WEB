@@ -17,10 +17,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/accounts
         public ActionResult Index(int page = 1, bool isReset = false)
         {
-            if (isReset) Session["isSearchingCart"] = false;
+            if (isReset) Session["isSearchingAccount"] = false;
 
             List<account> accounts = new List<account>();
-            bool isSearching = Session["isSearchingCart"] != null ? (bool)Session["isSearchingCart"] : false;
+            bool isSearching = Session["isSearchingAcount"] != null ? (bool)Session["isSearchingAccount"] : false;
 
             var selectedOption = Request.QueryString["selectedOption"];
             var valueSearch = Request.QueryString["valueSearch"];
@@ -39,7 +39,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
             if (isSearching)
             {
                 accounts = Session["listAccount"] as List<account>;
-                if (accounts.ToList().Count() == 0) Session["isSearchingCart"] = false;
+                if (accounts.ToList().Count() == 0) Session["isSearchingAccount"] = false;
                 accounts = SeearchAccount(accounts, selectedOption, valueSearch);
             }
 
