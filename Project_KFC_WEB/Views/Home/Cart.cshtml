@@ -1,0 +1,26 @@
+﻿
+@model IEnumerable<Project_KFC_WEB.Models.cart>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin-top: 120px; ">
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            foreach (var food in ViewBag.listFood)
+            {
+                if (food.id == item.idFood)
+                {
+                    <div>@food.name</div>
+                }
+            }
+
+
+            <div>@item.quantity</div>
+        }
+    }
+
+</div>

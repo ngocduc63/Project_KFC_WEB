@@ -96,9 +96,11 @@
                     <div class="icons">
                         <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
                         <a href="#" class="icons-btn d-inline-block"><span class="icon-heart-o"></span></a>
-                        <a href="cart.html" class="icons-btn d-inline-block bag">
-                            <span class="icon-shopping-bag"></span>
-                            <span class="number">2</span>
+                        <a href="@Url.Action("Cart", "Home")" class="icons-btn d-inline-block bag" style="position: relative">
+                            <img style="height:50px; width: 50px; " src="~/Data/images/cart.png" />
+                            @if (ViewBag.quantityCart > 0)
+                            {<span style="position: absolute; top: -17px; right: -12px; color: red; font-size: 20px; font-weight: 700; border-radius: 100%; ">@ViewBag.quantityCart</span>
+                            }
                         </a>
                         <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
                     </div>
