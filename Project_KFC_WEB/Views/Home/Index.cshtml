@@ -62,15 +62,15 @@
     </div>
 
     <div class="row">
-        @foreach (var item in foodCategories)
+        @for (int i = 0 ; i < ViewBag.Length; i++)
         {
             <div class="col-lg-3 col-md-12 mb-3">
-                <a class="item" style="display: flex; flex-direction: column; height: 280px; box-shadow: 0 1px 6px 0 rgba(0,0,0,.2); border-radius: 4px; background-color: white; cursor:pointer">
+                <a href="@Url.Action("Menu", "Home", new { index = i})" class="item" style="display: flex; flex-direction: column; height: 280px; box-shadow: 0 1px 6px 0 rgba(0,0,0,.2); border-radius: 4px; background-color: white; cursor:pointer">
                     <div class="bg-image" style="height: 230px; overflow: hidden">
-                        <img src="~/Upload/@item.image" style="width: 100%" class="zoom" />
+                        <img src="~/Upload/@ViewBag.foodCategories[i].image" style="width: 100%" class="zoom" />
                     </div>
                     <div style="display: flex; height: 30px; padding: 10px;">
-                        <span style="color: #343a40; font-weight:700; font-size:18px">@item.name</span>
+                        <span style="color: #343a40; font-weight:700; font-size:18px">@ViewBag.foodCategories[i].name</span>
                         <span style="color: #343a40; font-weight:900; font-size:18px; margin-left:6px; font-size: 24px; margin-top: -6px; "> > </span>
                     </div>
                 </a>

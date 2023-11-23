@@ -6,15 +6,203 @@
 
 }
 
-<!DOCTYPE html>
+<style>
+    .zoom {
+        transition: transform .4s ease;
+    }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Menu</title>
-</head>
-<body>
-    <div>
+    .item:hover .zoom {
+        transform: scale(1.1);
+    }
+    .tabs {
+        display: flex;
+        position: relative;
+    }
+
+        .tabs .line {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 6px;
+            border-radius: 15px;
+            background-color: #e4002b;
+            transition: all 0.2s ease;
+        }
+
+    .tab-item {
+        width: 160px;
+        padding: 16px 20px 11px 20px;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        color: #e4002b;
+        background-color: #fff;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom: 5px solid transparent;
+        opacity: 0.6;
+        cursor: pointer;
+        transition: all 0.5s ease;
+    }
+
+        .tab-item:hover {
+            opacity: 1;
+            background-color: rgba(194, 53, 100, 0.05);
+            border-color: rgba(194, 53, 100, 0.1);
+        }
+
+        .tab-item.active {
+            opacity: 1;
+        }
+
+    .tab-content {
+        padding: 28px 0;
+    }
+
+    .tab-pane {
+        color: #333;
+        display: none;
+    }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .tab-pane h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+</style>
+
+
+<div class="col-md-12">
+    <div style="margin-top: 100px">
+        <div class="tabs">
+            @for (int i = 0; i < ViewBag.Length; i++)
+            {
+                if (i != ViewBag.currentIndex)
+                {
+                    <div class="tab-item">
+                        @ViewBag.foodCategories[i].name
+                    </div>
+                }
+                else
+                {
+                    <div class="tab-item active">
+                        @ViewBag.foodCategories[i].name
+                    </div>
+                }
+            }
+
+            <div class="line"></div>
+        </div>
+
+        <!-- Tab content -->
+        <div class="tab-content">
+
+            @for (int i = 0; i < ViewBag.Length; i++)
+            {
+                if (i != ViewBag.currentIndex)
+                {
+                    <div class="tab-pane">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                if (item.foodCategory.name == @ViewBag.foodCategories[i].name)
+                                {
+                                    <div class="col-md-3 mb-3 item" >
+                                        <a href="@Url.Action("FoodDetail", "Home", new { id = item.id})">
+                                            <div class="card" style="display: flex; flex-direction: column; height: 450px; box-shadow: 0 1px 6px 0 rgba(0,0,0,.2); border-radius: 4px; background-color: white; cursor:pointer">
+                                                <div class="bg-image" style="height: 280px; overflow: hidden">
+                                                    <img src="~/Upload/@item.image" style="width: 100%" class="zoom" />
+                                                </div>
+                                                <div class="card-body">
+                                                    <div style="display: flex; margin-top: -10px; justify-content: space-between;">
+                                                        <span style="color: #343a40; font-weight:600; font-size:18px">@item.name</span>
+                                                        <span style="color: #343a40; font-weight:700; font-size:18px"> @item.price </span>
+                                                    </div>
+                                                    <div>
+                                                        <span style="color: #333">@item.description</span>
+                                                    </div>
+                                                    <div style="display: flex; justify-content: center; margin-top: 20px">
+                                                        <a style="padding: 8px 12px; width: 100%; background-color: #e4002b; text-align: center; color: white; font-size: 20px; font-weight: 700; border-radius: 40px "> Thêm</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="tab-pane active">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                if (item.foodCategory.name == @ViewBag.foodCategories[i].name)
+                                {
+                                    <div class="col-md-3 mb-3 item" >
+                                        <a href="@Url.Action("FoodDetail", "Home", new { id = item.id})">
+                                            <div class="card" style="display: flex; flex-direction: column; height: 450px; box-shadow: 0 1px 6px 0 rgba(0,0,0,.2); border-radius: 4px; background-color: white; cursor:pointer">
+                                                <div class="bg-image" style="height: 280px; overflow: hidden">
+                                                    <img src="~/Upload/@item.image" style="width: 100%" class="zoom" />
+                                                </div>
+                                                <div class="card-body">
+                                                    <div style="display: flex; margin-top: -10px; justify-content: space-between;">
+                                                        <span style="color: #343a40; font-weight:600; font-size:18px">@item.name</span>
+                                                        <span style="color: #343a40; font-weight:700; font-size:18px"> @item.price </span>
+                                                    </div>
+                                                    <div>
+                                                        <span style="color: #333">@item.description</span>
+                                                    </div>
+                                                    <div style="display: flex; justify-content: center; margin-top: 20px">
+                                                        <a style="padding: 8px 12px; width: 100%; background-color: #e4002b; text-align: center; color: white; font-size: 20px; font-weight: 700; border-radius: 40px "> Thêm</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     </div>
-</body>
-</html>
+</div>
+<script>
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
+
+    const tabs = $$(".tab-item");
+    const panes = $$(".tab-pane");
+
+    const tabActive = $(".tab-item.active");
+    const line = $(".tabs .line");
+
+    requestIdleCallback(function () {
+        line.style.left = tabActive.offsetLeft + "px";
+        line.style.width = tabActive.offsetWidth + "px";
+    });
+
+    tabs.forEach((tab, index) => {
+        const pane = panes[index];
+
+        tab.onclick = function () {
+            $(".tab-item.active").classList.remove("active");
+            $(".tab-pane.active").classList.remove("active");
+
+            line.style.left = this.offsetLeft + "px";
+            line.style.width = this.offsetWidth + "px";
+
+            this.classList.add("active");
+            pane.classList.add("active");
+        };
+    });
+
+</script>
