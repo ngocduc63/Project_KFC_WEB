@@ -18,18 +18,11 @@ namespace Project_KFC_WEB.Controllers
             return View(db.foods.ToList());
         }
 
-        public ActionResult About()
+        public ActionResult Menu()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.foodCategories = db.foodCategories.ToList();
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(db.foods.ToList());
         }
     }
 }
