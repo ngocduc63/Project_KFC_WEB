@@ -20,7 +20,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Areas/Admin/Data/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/Areas/Admin/Data/dist/css/skins/_all-skins.min.css">
-
+    <link rel="shortcut icon" href="https://static.kfcvietnam.com.vn/images/web/kfc-logo.svg?v=5.0" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,15 +35,15 @@
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="@Url.Action("Index", "Home")" class="logo bg-red-active">
+            <a href="@Url.Action("Index", "Home")" class="logo" style="background-color: #333">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>KFC</b></span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Quản lí KFC</b></span>
+                <span class="logo-lg" style="color: red"> <img src="https://static.kfcvietnam.com.vn/images/web/kfc-logo.svg?v=5.0" class="img-circle" alt="User Image" style="height:30px; margin-right: 10px; margin-bottom: 5px "><b>Quản lí KFC</b></span>
             </a>
 
             <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top bg-red-active" role="navigation">
+            <nav class="navbar navbar-static-top" role="navigation" style="background-color: #333">
                 <!-- Sidebar toggle button-->
                 @*<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                         <span class="sr-only">Toggle navigation</span>
@@ -75,20 +75,20 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="~/Areas/Admin/Data/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                <img src="~/Data/images/avatar_admin.jpg" class="user-image" alt="User Image">
                                 <span class="hidden-xs">Nguyễn Ngọc Đức</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
-                                <li class="user-header bg-red">
-                                    <img src="~/Areas/Admin/Data/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <li class="user-header" style="background-color: #333">
+                                    <img src="~/Data/images/avatar_admin.jpg" class="img-circle" alt="User Image">
                                     <p>
                                         Nguyễn Ngọc Đức
-                                        <small>Member since Nov. 2012</small>
+                                        <small>Nhân viên xuất sắc sủa chuỗi nhà hàng KFC</small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
-                                <li class="user-body bg-red">
+                                <li class="user-body" style="background-color: #333">
                                     <div class="col-xs-4 text-center">
                                         <a href="#">Followers</a>
                                     </div>
@@ -105,7 +105,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="@Url.Action("CheckLogout", "Home")" class="btn btn-default btn-flat">Đăng xuất</a>
                                     </div>
                                 </li>
                             </ul>
@@ -123,7 +123,7 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="~/Areas/Admin/Data/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="~/Data/images/avatar_admin.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>Nguyễn Ngọc Đức</p>
@@ -148,36 +148,45 @@
                             <i class="fa fa-dashboard"></i> <span>Quản lí tài khoản</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-                                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                            </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                     <li class="">
                         <a href="@Url.Action("Index", "FoodCategories")">
                             <i class="fa fa-dashboard"></i> <span>Quản lí loại món ăn</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-                                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                            </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                     <li class="">
                         <a href="@Url.Action("Index", "Foods")">
                             <i class="fa fa-dashboard"></i> <span>Quản lí món ăn</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-                                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                            </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                     <li class="">
                         <a href="@Url.Action("Index", "Carts")">
-                            <i class="fa fa-dashboard"></i> <span>Quản lí giỏ hàng</span> @*<i class="fa fa-angle-left pull-right"></i>*@
+                            <i class="fa fa-dashboard"></i> <span>Quản lí đơn hàng</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-            <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-        </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "DiscountCodes")">
+                            <i class="fa fa-dashboard"></i> <span>Quản lí mã giảm giá</span> @*<i class="fa fa-angle-left pull-right"></i>*@
+                        </a>
+                        @*<ul class="treeview-menu">
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                 </ul>
             </section>

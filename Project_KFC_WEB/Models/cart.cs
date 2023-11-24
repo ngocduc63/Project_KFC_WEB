@@ -1,7 +1,8 @@
-namespace Project_KFC_WEB.Models
+﻿namespace Project_KFC_WEB.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -9,23 +10,40 @@ namespace Project_KFC_WEB.Models
     [Table("cart")]
     public partial class cart
     {
+        [DisplayName("Mã đơn hàng")]
         public int id { get; set; }
 
+        [DisplayName("Món ăn")]
         public int? idFood { get; set; }
 
+        [DisplayName("Tên người dùng")]
         [StringLength(50)]
         public string userName { get; set; }
 
+        [DisplayName("Số lượng")]
         public int? quantity { get; set; }
 
-        public double? totalPrice {
+        [DisplayName("Tổng hóa đơn")]
+        public double? totalPrice
+        {
             get
             {
-                if (quantity.HasValue && food != null)
+                if (quantity != null && quantity > 0 && food != null)
                 {
-                    return quantity.Value * food.price;
+                    if (food.discount != null && food.discount > 0)
+                    {
+                        return quantity * (food.price * ((100 - food.discount) / 100));
+                    }
+                    else
+                    {
+                        return quantity * food.price;
+                    }
                 }
-                return 0; 
+                else return 0;
+            }
+            set
+            {
+
             }
         }
 

@@ -21,7 +21,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/Areas/Admin//Data/dist/css/skins/_all-skins.min.css">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!--css custom page-->
     <!-- DataTables -->
@@ -57,8 +57,21 @@
         </section>*@
     <!-- Main content -->
     <section class="content">
-        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: green; ">Quản Lí Loại Món Ăn</span>
+        <div style="width: 100%; display: flex; justify-content: center">
 
+            <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; font-size: 26px">Quản lí loại món ăn</span>
+        </div>
+        @using (Html.BeginForm("Index", "FoodCategories", FormMethod.Get, new { @class = "sidebar-form", style = "border: none;" }))
+        {
+            <a href="@Url.Action("Index", "FoodCategories", new {  page = 1, isReset = true})" class="btn btn-info btn-reset" style="color: #fff !important; background-color: #5bc0de !important; border-color: #46b8da !important; ">Tải lại loại món ăn</a>
+
+            <div class="input-group" style="margin-top: 20px;">
+                <input type="text" name="valueSearch" class="form-control" placeholder="Nhập loại món ăn muốn tìm...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        }
         <div class="row">
             <div class="col-xs-12">
                 <div class="box ">
@@ -83,31 +96,65 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @foreach (var item in Model)
+                                    @if (Model != null)
                                     {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.name)
-                                    </td>
-                                    <td>
-                                        <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
-                                    </td>
 
-                                    <td>
-                                        <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "FoodCategories", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
-                                        <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "FoodCategories", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
-                                    </td>
-                                </tr>
+                                        foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.name)
+                                            </td>
+                                            <td>
+                                                <img src="~/Upload/@item.image" style="width: 200px; height:100%" />
+                                            </td>
+
+                                            <td>
+                                                <a class="btn btn-info btn-xs" href="@Url.Action("Edit", "FoodCategories", new {  id=item.id})"><i class="fa fa-pencil"></i>Chỉnh sửa</a>
+                                                <a class="btn btn-danger btn-xs" href="@Url.Action("Delete", "FoodCategories", new {  id=item.id})"><i class="fa fa-trash"></i>Xóa</a>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
+                                else
+                                {
+                                    <div class="text-danger ">Không có dữ liệu</div>
+
+                                }
+
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
+            @* page  *@
+            <div style="background-color: white; display: flex; justify-content: space-between; height: 40px; align-items: center; padding: 20px; border-radius: 4px;">
+                <div style="display:flex; column-gap: 10px">
+                    <a href="@Url.Action("Index", "Foodcategories", new {  page = 1})" class="btn btn-info">Trang đầu</a>
+                    <a href="@Url.Action("Index", "Foodcategories", new {  page = Convert.ToInt32(ViewBag.currentPage) + 1})" class="btn btn-info">Trang tiếp</a>
+                    <a href="@Url.Action("Index", "Foodcategories", new {  page = Convert.ToInt32(ViewBag.totalPages)})" class="btn btn-info">Trang cuối</a>
+                </div>
+                <ul style="display: flex; column-gap: 10px; align-items: center">
+                    <span style="margin-top: 5px; color: red; font-size: large; font-weight: 600 ">Trang: </span>
+                    @{
+                        for (int i = 1; i <= Convert.ToInt32(ViewBag.totalPages); i++)
+                        {
+                            if (i == Convert.ToInt32(ViewBag.currentPage))
+                            {
+                                <li style="list-style: none; cursor: pointer; margin-top: 5px;"><a style="color: red; font-size: large">@i</a></li>
+                            }
+                            else
+                            {
+                                <li style="list-style: none; cursor: pointer; margin-top: 5px;"><a href="@Url.Action("Index", "Foodcategories", new {  page = i})" style="color: #333; font-size: large">@i</a></li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
             </div><!-- ./wrapper -->
             <!-- jQuery 2.1.4 -->
             <script src="~/Areas/Admin//Data/plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -121,6 +168,8 @@
             <script src="~/Areas/Admin//Data/dist/js/app.min.js"></script>
             <!-- AdminLTE for demo purposes -->
             <script src="~/Areas/Admin//Data/dist/js/demo.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
             <!--script custom page-->
             <!-- DataTables -->

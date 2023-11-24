@@ -3,28 +3,193 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Project_KFC_WEB.Models;
+using System.Data.Entity;
 
 namespace Project_KFC_WEB.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        KFC_Data db = new KFC_Data();
+
+        public ActionResult Index() 
         {
-            return View();
+            List<cart> carts = new List<cart>(); 
+            if(Session["cartUser"] as List<cart> == null)
+            {
+                Session["cartUser"] = new List<cart>();
+            }
+            else
+            {
+                carts = Session["cartUser"] as List<cart>;
+            } 
+
+            ViewBag.foodCategories = db.foodCategories.ToList();
+            ViewBag.Length = db.foodCategories.ToList().Count();
+            ViewBag.quantityCart = carts.Count;
+
+            return View(db.foods.ToList());
         }
 
-        public ActionResult About()
+        public ActionResult Menu(int index = 0)
         {
-            ViewBag.Message = "Your application description page.";
+            List<cart> carts = new List<cart>();
+            if (Session["cartUser"] as List<cart> == null)
+            {
+                Session["cartUser"] = new List<cart>();
+            }
+            else
+            {
+                carts = Session["cartUser"] as List<cart>;
+            }
 
-            return View();
+            ViewBag.foodCategories = db.foodCategories.ToList();
+            ViewBag.Length = db.foodCategories.ToList().Count();
+            ViewBag.currentIndex = index;
+            ViewBag.quantityCart = carts.Count;
+
+            return View(db.foods.ToList());
         }
 
-        public ActionResult Contact()
+        public ActionResult FoodDetail(int id = 1)
         {
-            ViewBag.Message = "Your contact page.";
+            List<cart> carts = new List<cart>();
+            if (Session["cartUser"] as List<cart> == null)
+            {
+                Session["cartUser"] = new List<cart>();
+            }
+            else
+            {
+                carts = Session["cartUser"] as List<cart>;
+            }
 
-            return View();
+            var idCategory = db.foods.ToList().FirstOrDefault(item => item.id == id).idCategory;
+            ViewBag.category = db.foodCategories.ToList().FirstOrDefault(item => item.id == idCategory);
+            ViewBag.index = db.foodCategories.ToList().FindIndex(item => item.id == idCategory);
+            ViewBag.quantityCart = carts.Count;
+
+            return View(db.foods.ToList().FirstOrDefault( item => item.id == id));
         }
+
+        public ActionResult Cart(bool success = false)
+        {
+            List<cart> carts = Session["cartUser"] as List<cart>;
+            ViewBag.listFood = db.foods.ToList();
+            ViewBag.quantityCart = carts == null ? 0 : carts.Count;
+
+            if (success) ViewBag.success = success;
+
+            return View(carts);
+        }
+
+        public ActionResult InsertCart()
+        {
+            List<cart> carts = new List<cart>();
+            if (Session["cartUser"] as List<cart> == null)
+            {
+                Session["cartUser"] = new List<cart>();
+            }
+            else
+            {
+                carts = Session["cartUser"] as List<cart>;
+            }
+
+            string userName = Session["userName"] as string  == null ? "admin" : Session["userName"] as string;
+
+            foreach (var item in carts)
+            {
+                item.id = -1;
+                item.food = null;
+                item.account = null;
+
+                db.carts.Add(item);
+                db.SaveChanges();
+            }
+            
+
+            Session["cartUser"] = null;
+
+            return RedirectToAction("Cart", new { success = true});
+        }
+
+        public ActionResult UpdateCart(int? id, int? quantity, bool plus)
+        {
+            List<cart> carts = new List<cart>();
+            if (Session["cartUser"] as List<cart> == null)
+            {
+                return RedirectToAction("Cart");
+            }
+            else
+            {
+                carts = Session["cartUser"] as List<cart>;
+            }
+
+            var checkCart = carts.Find(item => item.idFood == id);
+
+            if (checkCart != null && quantity > 0) {
+                if (plus)
+                {
+                    carts[carts.FindIndex(item => item.idFood == checkCart.idFood)].quantity = checkCart.quantity + 1;
+                }else
+                {
+                    if(checkCart.quantity - 1  != 0)
+                    {
+                        carts[carts.FindIndex(item => item.idFood == checkCart.idFood)].quantity = checkCart.quantity - 1;
+                    }
+                }
+            }
+
+            Session["cartUser"] = carts;
+
+            return RedirectToAction("Cart");
+        }
+
+        public ActionResult AddCart(int? id, string view = "Index" ,int quantity = 1)
+        {
+            int index = 1;
+            if(id != null)
+            {
+                List<cart> carts = new List<cart>();
+                if (Session["cartUser"] as List<cart> == null)
+                {
+                    Session["cartUser"] = new List<cart>();
+                }
+                else
+                {
+                    carts = Session["cartUser"] as List<cart>;
+                }
+
+                var userName = Session["userName"] == null ? "admin" : Session["userName"] as string;
+                var checkCart = carts.Find(item => item.idFood == id);
+
+                if (checkCart == null)
+                {
+                    cart cart = new cart();
+                    cart.idFood = id;
+                    cart.userName = userName;
+                    cart.quantity = quantity;
+                    cart.food = db.foods.ToList().Find(item => item.id == id);
+                    cart.account = db.accounts.ToList().Find(item => item.userName == userName);
+
+                    carts.Add(cart);
+                }
+                else
+                {
+                    carts[carts.FindIndex(item => item.id == checkCart.id)].quantity = checkCart.quantity + quantity;
+                }
+
+                
+
+                Session["cartUser"] = carts;
+
+                var idCategory = db.foods.ToList().FirstOrDefault(item => item.id == id).idCategory;
+                index = db.foodCategories.ToList().FindIndex(item => item.id == idCategory);
+            }
+
+            if (!view.ToLower().Contains("index")) view = "Menu";
+
+            return RedirectToAction(view, new { index = index});
+        }
+
     }
 }

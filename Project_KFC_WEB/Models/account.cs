@@ -1,7 +1,8 @@
-namespace Project_KFC_WEB.Models
+﻿namespace Project_KFC_WEB.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -17,15 +18,20 @@ namespace Project_KFC_WEB.Models
 
         [Key]
         [StringLength(50)]
+        [DisplayName("Tên đăng nhập")]
         public string userName { get; set; }
 
+        [DisplayName("Mật khẩu")]
         [StringLength(50)]
         public string passWord { get; set; }
 
+        [DisplayName("Tên người dùng")]
         public string name { get; set; }
 
+        [DisplayName("Địa chỉ")]
         public string address { get; set; }
 
+        [DisplayName("Số điện thoại")]
         [StringLength(10)]
         public string phone { get; set; }
 

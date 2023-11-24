@@ -1,7 +1,8 @@
-namespace Project_KFC_WEB.Models
+﻿namespace Project_KFC_WEB.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -15,10 +16,13 @@ namespace Project_KFC_WEB.Models
             foods = new HashSet<food>();
         }
 
+        [DisplayName("Mã loại")]
         public int id { get; set; }
 
+        [DisplayName("Tên loại món ăn")]
         public string name { get; set; }
 
+        [DisplayName("Ảnh")]
         public string image { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

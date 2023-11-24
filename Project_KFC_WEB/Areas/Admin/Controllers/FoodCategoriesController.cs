@@ -16,14 +16,77 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         private KFC_Data db = new KFC_Data();
 
         // GET: Admin/FoodCategories
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, bool isReset = false)
         {
-            return View(db.foodCategories.ToList());
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
+            if (isReset) Session["isSearchingFoodCategory"] = false;
+
+            List<foodCategory> foodCategories = new List<foodCategory>();
+            bool isSearching = Session["isSearchingFoodCategory"] != null ? (bool)Session["isSearchingFoodCategory"] : false;
+
+            var valueSearch = Request.QueryString["valueSearch"];
+
+            foodCategories = db.foodCategories.ToList();
+
+            if (!isSearching)
+            {
+                if (!string.IsNullOrEmpty(valueSearch))
+                {
+                    isSearching = true;
+                    foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+                    Session["listFoodCategoty"] = foodCategories;
+                }
+            }
+
+            if (isSearching)
+            {
+                foodCategories = Session["listFoodCategoty"] as List<foodCategory>;
+                if (foodCategories.ToList().Count() == 0) Session["isSearchingFoodCategory"] = false;
+                if (!string.IsNullOrEmpty(valueSearch))
+                {
+                    foodCategories = foodCategories.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
+                    Session["listFoodCategoty"] = foodCategories;
+                }
+            }
+
+            int itemsPerPage = 5;
+            int totalItems = foodCategories.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            var startIndex = (page - 1) * itemsPerPage;
+            var endIndex = Math.Min(startIndex + itemsPerPage - 1, totalItems - 1);
+
+            List<foodCategory> foodCategoryPage;
+
+            if (startIndex < 0 || startIndex >= totalItems)
+            {
+                foodCategoryPage = null;
+            }
+            else
+            {
+                foodCategoryPage = foodCategories.GetRange(startIndex, endIndex - startIndex + 1);
+            }
+
+            ViewBag.currentPage = page;
+            Session["currentPageFoodCategory"] = page;
+            ViewBag.totalPages = totalPages;
+
+
+            return View(foodCategoryPage);
         }
 
         // GET: Admin/FoodCategories/Details/5
         public ActionResult Details(int? id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +102,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/FoodCategories/Create
         public ActionResult Create()
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
             return View();
         }
 
@@ -49,6 +116,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,name,image")] foodCategory foodCategory, HttpPostedFileBase imageFile)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
             if (ModelState.IsValid)
             {
                 if (imageFile != null && imageFile.ContentLength > 0)
@@ -81,6 +152,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/FoodCategories/Edit/5
         public ActionResult Edit(int? id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -100,6 +175,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,name,image")] foodCategory foodCategory, HttpPostedFileBase imageFile)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
             if (ModelState.IsValid)
             {
                 if (imageFile != null && imageFile.ContentLength > 0)
@@ -123,7 +202,7 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
                     {
                         return HttpNotFound();
                     }
-                    
+
                 }
 
                 db.SaveChanges();
@@ -137,6 +216,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/FoodCategories/Delete/5
         public ActionResult Delete(int? id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -154,6 +237,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
             foodCategory foodCategory = db.foodCategories.FirstOrDefault((item) => item.id == id);
             db.foodCategories.Remove(foodCategory);
             db.SaveChanges();
