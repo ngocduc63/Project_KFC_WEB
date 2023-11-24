@@ -38,3 +38,9 @@ create table cart(
 	foreign key (idFood) references food (id),
 	foreign key (userName) references account (userName)
 )
+go
+create table discountCode(
+	id INT IDENTITY(1,1) primary key,
+	code varchar(50),
+	discount float,
+)

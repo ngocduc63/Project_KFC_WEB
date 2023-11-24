@@ -10,45 +10,49 @@ using Project_KFC_WEB.Models;
 
 namespace Project_KFC_WEB.Areas.Admin.Controllers
 {
-    public class accountsController : Controller
+    public class DiscountCodesController : Controller
     {
         private KFC_Data db = new KFC_Data();
 
-        // GET: Admin/accounts
+        // GET: Admin/DiscountCodes
         public ActionResult Index(int page = 1, bool isReset = false)
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
 
             if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
 
-            if (isReset) Session["isSearchingAccount"] = false;
+            if (isReset) Session["isSearchingDisCountCode"] = false;
 
-            List<account> accounts = new List<account>();
-            bool isSearching = Session["isSearchingAcount"] != null ? (bool)Session["isSearchingAccount"] : false;
+            List<discountCode> discountCodes = new List<discountCode>();
+            bool isSearching = Session["isSearchingFoodCategory"] != null ? (bool)Session["isSearchingDisCountCode"] : false;
 
-            var selectedOption = Request.QueryString["selectedOption"];
             var valueSearch = Request.QueryString["valueSearch"];
 
-            accounts = db.accounts.ToList();
+            discountCodes = db.discountCodes.ToList();
+
             if (!isSearching)
             {
-                if (!string.IsNullOrEmpty(selectedOption) && !string.IsNullOrEmpty(valueSearch))
+                if (!string.IsNullOrEmpty(valueSearch))
                 {
                     isSearching = true;
-                    Session["isSearchingAccount"] = isSearching;
-                    accounts = SeearchAccount(accounts, selectedOption, valueSearch);
+                    discountCodes = discountCodes.FindAll(item => item.code.ToLower().Contains(valueSearch.Trim().ToLower()));
+                    Session["listDiscountCode"] = discountCodes;
                 }
             }
 
             if (isSearching)
             {
-                accounts = Session["listAccount"] as List<account>;
-                if (accounts.ToList().Count() == 0) Session["isSearchingAccount"] = false;
-                accounts = SeearchAccount(accounts, selectedOption, valueSearch);
+                discountCodes = Session["listDiscountCode"] as List<discountCode>;
+                if (discountCodes.ToList().Count() == 0) Session["isSearchingDisCountCode"] = false;
+                if (!string.IsNullOrEmpty(valueSearch))
+                {
+                    discountCodes = discountCodes.FindAll(item => item.code.ToLower().Contains(valueSearch.Trim().ToLower()));
+                    Session["listDiscountCode"] = discountCodes;
+                }
             }
 
             int itemsPerPage = 5;
-            int totalItems = accounts.Count();
+            int totalItems = discountCodes.Count();
             int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
 
             page = Math.Max(1, Math.Min(page, totalPages));
@@ -56,71 +60,45 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
             var startIndex = (page - 1) * itemsPerPage;
             var endIndex = Math.Min(startIndex + itemsPerPage - 1, totalItems - 1);
 
-            List<account> accountPage;
+            List<discountCode> discountCodePage;
 
             if (startIndex < 0 || startIndex >= totalItems)
             {
-                accountPage = null;
+                discountCodePage = null;
             }
             else
             {
-                accountPage = accounts.GetRange(startIndex, endIndex - startIndex + 1);
+                discountCodePage = discountCodes.GetRange(startIndex, endIndex - startIndex + 1);
             }
 
             ViewBag.currentPage = page;
-            Session["currentPageAccount"] = page;
+            Session["currentPageDiscountCode"] = page;
             ViewBag.totalPages = totalPages;
 
-            return View(accountPage);
+
+            return View(discountCodePage);
         }
 
-        public List<account> SeearchAccount(List<account> accounts, string selectedOption, string valueSearch)
-        {
-            if (!string.IsNullOrEmpty(selectedOption) && !string.IsNullOrEmpty(valueSearch))
-            {
-                if (selectedOption.Contains("đăng"))
-                {
-                    accounts = accounts.FindAll(item => item.userName.ToLower().Contains(valueSearch.Trim().ToLower()));
-                }
-                else if (selectedOption.Contains("người"))
-                {
-                    accounts = accounts.FindAll(item => item.name.ToLower().Contains(valueSearch.Trim().ToLower()));
-                }
-                else if (selectedOption.Contains("số"))
-                {
-                    accounts = accounts.FindAll(item => item.phone.Contains(valueSearch.Trim()));
-                }
-                else if (selectedOption.Contains("chỉ"))
-                {
-                    accounts = accounts.FindAll(item => item.address.ToLower().Contains(valueSearch.Trim().ToLower()));
-                }
-            }
-
-            Session["listAccount"] = accounts;
-
-            return accounts;
-        }
-
-        // GET: Admin/accounts/Details/5
-        public ActionResult Details(string userName)
+        // GET: Admin/DiscountCodes/Details/5
+        public ActionResult Details(int? id)
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
 
             if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
 
-            if (userName == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            account account = db.accounts.Find(userName);
-            if (account == null)
+            discountCode discountCode = db.discountCodes.Find(id);
+            if (discountCode == null)
             {
                 return HttpNotFound();
             }
-            return View(account);
+            return View(discountCode);
         }
 
-        // GET: Admin/accounts/Create
+        // GET: Admin/DiscountCodes/Create
         public ActionResult Create()
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
@@ -130,12 +108,12 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/accounts/Create
+        // POST: Admin/DiscountCodes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "userName,passWord,name,address,phone")] account account)
+        public ActionResult Create([Bind(Include = "id,code,discount")] discountCode discountCode)
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
 
@@ -143,39 +121,39 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                db.accounts.Add(account);
+                db.discountCodes.Add(discountCode);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(account);
+            return View(discountCode);
         }
 
-        // GET: Admin/accounts/Edit/5
-        public ActionResult Edit(string userName)
+        // GET: Admin/DiscountCodes/Edit/5
+        public ActionResult Edit(int? id)
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
 
             if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
 
-            if (userName == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            account account = db.accounts.FirstOrDefault(item => item.userName == userName);
-            if (account == null)
+            discountCode discountCode = db.discountCodes.Find(id);
+            if (discountCode == null)
             {
                 return HttpNotFound();
             }
-            return View(account);
+            return View(discountCode);
         }
 
-        // POST: Admin/accounts/Edit/5
+        // POST: Admin/DiscountCodes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "userName,passWord,name,address,phone")] account account)
+        public ActionResult Edit([Bind(Include = "id,code,discount")] discountCode discountCode)
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
 
@@ -183,43 +161,43 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(account).State = EntityState.Modified;
+                db.Entry(discountCode).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(account);
+            return View(discountCode);
         }
 
-        // GET: Admin/accounts/Delete/5
-        public ActionResult Delete(string userName)
+        // GET: Admin/DiscountCodes/Delete/5
+        public ActionResult Delete(int? id)
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
 
             if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
 
-            if (userName == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            account account = db.accounts.FirstOrDefault(item => item.userName == userName);
-            if (account == null)
+            discountCode discountCode = db.discountCodes.Find(id);
+            if (discountCode == null)
             {
                 return HttpNotFound();
             }
-            return View(account);
+            return View(discountCode);
         }
 
-        // POST: Admin/accounts/Delete/5
+        // POST: Admin/DiscountCodes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string userName)
+        public ActionResult DeleteConfirmed(int id)
         {
             bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
 
             if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
 
-            account account = db.accounts.FirstOrDefault(item => item.userName == userName);
-            db.accounts.Remove(account);
+            discountCode discountCode = db.discountCodes.Find(id);
+            db.discountCodes.Remove(discountCode);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

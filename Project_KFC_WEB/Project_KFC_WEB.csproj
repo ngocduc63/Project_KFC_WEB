@@ -131,6 +131,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\accountsController.cs" />
     <Compile Include="Areas\Admin\Controllers\CartsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DiscountCodesController.cs" />
     <Compile Include="Areas\Admin\Controllers\FoodCategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\FoodsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -140,6 +141,7 @@
     </Compile>
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\cart.cs" />
+    <Compile Include="Models\discountCode.cs" />
     <Compile Include="Models\food.cs" />
     <Compile Include="Models\foodCategory.cs" />
     <Compile Include="Models\Model1.cs" />
@@ -420,6 +422,12 @@
     <Content Include="Data\scss\_site-base.scss" />
     <Content Include="Data\scss\_site-blocks.scss" />
     <Content Include="Data\scss\_site-navbar.scss" />
+    <Content Include="Areas\Admin\Views\DiscountCodes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\DiscountCodes\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\DiscountCodes\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DiscountCodes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\DiscountCodes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

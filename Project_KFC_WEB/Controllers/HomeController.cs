@@ -102,7 +102,6 @@ namespace Project_KFC_WEB.Controllers
                 item.food = null;
                 item.account = null;
 
-               
                 db.carts.Add(item);
                 db.SaveChanges();
             }
@@ -187,7 +186,7 @@ namespace Project_KFC_WEB.Controllers
                 index = db.foodCategories.ToList().FindIndex(item => item.id == idCategory);
             }
 
-            if (view != "index") view = "Menu";
+            if (!view.ToLower().Contains("index")) view = "Menu";
 
             return RedirectToAction(view, new { index = index});
         }

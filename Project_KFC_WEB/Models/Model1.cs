@@ -14,6 +14,7 @@ namespace Project_KFC_WEB.Models
 
         public virtual DbSet<account> accounts { get; set; }
         public virtual DbSet<cart> carts { get; set; }
+        public virtual DbSet<discountCode> discountCodes { get; set; }
         public virtual DbSet<food> foods { get; set; }
         public virtual DbSet<foodCategory> foodCategories { get; set; }
 
@@ -33,6 +34,10 @@ namespace Project_KFC_WEB.Models
 
             modelBuilder.Entity<cart>()
                 .Property(e => e.userName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<discountCode>()
+                .Property(e => e.code)
                 .IsUnicode(false);
 
             modelBuilder.Entity<food>()

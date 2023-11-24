@@ -75,13 +75,13 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="https://scontent.fhan17-1.fna.fbcdn.net/v/t39.30808-6/391693212_1369390073930062_6362417424906768341_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeElxjwmZ17jGAS4sImvFBcTm_RkUUSCWd6b9GRRRIJZ3kEC8eMe4VdqnpTa7PywPg3pjikz4u-w178IHuquLVId&_nc_ohc=6-nlJl4W8aoAX_l4oq4&_nc_ht=scontent.fhan17-1.fna&oh=00_AfDb-zas6rldaogS8KdjqJfFjDJmjszM7NVPksrtbITpZQ&oe=655EA5B6" class="user-image" alt="User Image">
+                                <img src="~/Data/images/avatar_admin.jpg" class="user-image" alt="User Image">
                                 <span class="hidden-xs">Nguyễn Ngọc Đức</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header" style="background-color: #333">
-                                    <img src="https://scontent.fhan17-1.fna.fbcdn.net/v/t39.30808-6/391693212_1369390073930062_6362417424906768341_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeElxjwmZ17jGAS4sImvFBcTm_RkUUSCWd6b9GRRRIJZ3kEC8eMe4VdqnpTa7PywPg3pjikz4u-w178IHuquLVId&_nc_ohc=6-nlJl4W8aoAX_l4oq4&_nc_ht=scontent.fhan17-1.fna&oh=00_AfDb-zas6rldaogS8KdjqJfFjDJmjszM7NVPksrtbITpZQ&oe=655EA5B6" class="img-circle" alt="User Image">
+                                    <img src="~/Data/images/avatar_admin.jpg" class="img-circle" alt="User Image">
                                     <p>
                                         Nguyễn Ngọc Đức
                                         <small>Nhân viên xuất sắc sủa chuỗi nhà hàng KFC</small>
@@ -105,7 +105,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="@Url.Action("CheckLogout", "Home")" class="btn btn-default btn-flat">Đăng xuất</a>
                                     </div>
                                 </li>
                             </ul>
@@ -123,7 +123,7 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="https://scontent.fhan17-1.fna.fbcdn.net/v/t39.30808-6/391693212_1369390073930062_6362417424906768341_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeElxjwmZ17jGAS4sImvFBcTm_RkUUSCWd6b9GRRRIJZ3kEC8eMe4VdqnpTa7PywPg3pjikz4u-w178IHuquLVId&_nc_ohc=6-nlJl4W8aoAX_l4oq4&_nc_ht=scontent.fhan17-1.fna&oh=00_AfDb-zas6rldaogS8KdjqJfFjDJmjszM7NVPksrtbITpZQ&oe=655EA5B6" class="img-circle" alt="User Image">
+                        <img src="~/Data/images/avatar_admin.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>Nguyễn Ngọc Đức</p>
@@ -148,36 +148,45 @@
                             <i class="fa fa-dashboard"></i> <span>Quản lí tài khoản</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-                                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                            </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                     <li class="">
                         <a href="@Url.Action("Index", "FoodCategories")">
                             <i class="fa fa-dashboard"></i> <span>Quản lí loại món ăn</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-                                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                            </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                     <li class="">
                         <a href="@Url.Action("Index", "Foods")">
                             <i class="fa fa-dashboard"></i> <span>Quản lí món ăn</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-                                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                            </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                     <li class="">
                         <a href="@Url.Action("Index", "Carts")">
                             <i class="fa fa-dashboard"></i> <span>Quản lí đơn hàng</span> @*<i class="fa fa-angle-left pull-right"></i>*@
                         </a>
                         @*<ul class="treeview-menu">
-                                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                            </ul>*@
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "DiscountCodes")">
+                            <i class="fa fa-dashboard"></i> <span>Quản lí mã giảm giá</span> @*<i class="fa fa-angle-left pull-right"></i>*@
+                        </a>
+                        @*<ul class="treeview-menu">
+                <li><a href="Admin/Accounts/index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            </ul>*@
                     </li>
                 </ul>
             </section>

@@ -17,6 +17,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Carts
         public ActionResult Index(int page = 1, bool isReset = false)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             if (isReset) Session["isSearchingCart"] = false;
 
             List<cart> carts = new List<cart>();
@@ -114,6 +118,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Carts/Details/5
         public ActionResult Details(int? id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -129,6 +137,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Carts/Create
         public ActionResult Create()
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             ViewBag.userName = new SelectList(db.accounts, "userName", "name");
             ViewBag.idFood = new SelectList(db.foods, "id", "name");
             return View();
@@ -141,6 +153,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,idFood,userName,quantity,totalPrice")] cart cart)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             if (ModelState.IsValid)
             {
                 db.carts.Add(cart);
@@ -156,6 +172,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Carts/Edit/5
         public ActionResult Edit(int? id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -177,6 +197,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,idFood,userName,quantity,totalPrice")] cart cart)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             if (ModelState.IsValid)
             {
                 db.Entry(cart).State = EntityState.Modified;
@@ -191,6 +215,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Carts/Delete/5
         public ActionResult Delete(int? id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -208,6 +236,10 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
+
             cart cart = db.carts.Find(id);
             db.carts.Remove(cart);
             db.SaveChanges();
