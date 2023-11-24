@@ -30,6 +30,9 @@
                             <div class="col-7">
                                 <div style="color: #333; font-size: 20px; font-weight: 700">@item.food.name</div>
                                 <div style="color: #333; font-size: 16px;">@item.food.description</div>
+                                <div style="margin-top: 10px;">
+                                    <a href="@Url.Action("DeleteCart", "Home", new { id = item.idFood})" style="color: #333 !important; font-size: 20px!important; font-weight: 700!important; text-decoration: underline!important; cursor: pointer!important">Xóa</a>
+                                </div>
                             </div>
                             <div class="col-3" style="display: flex; justify-content: center; flex-wrap: wrap">
                                 <div style="display:flex; column-gap: 20px; align-items: center; height: 100%">

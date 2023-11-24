@@ -191,5 +191,33 @@ namespace Project_KFC_WEB.Controllers
             return RedirectToAction(view, new { index = index});
         }
 
+        public ActionResult DeleteCart(int? id)
+        {
+            if (id != null)
+            {
+                List<cart> carts = new List<cart>();
+                if (Session["cartUser"] as List<cart> == null)
+                {
+                    Session["cartUser"] = new List<cart>();
+                }
+                else
+                {
+                    carts = Session["cartUser"] as List<cart>;
+                }
+
+                var checkCart = carts.Find(item => item.idFood == id);
+
+                if (checkCart != null)
+                {
+                    carts.Remove(checkCart);
+                }
+
+                Session["cartUser"] = carts;
+            }
+
+
+            return RedirectToAction("Cart");
+        }
+
     }
 }
