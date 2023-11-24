@@ -37,14 +37,14 @@
                     <div style="height: 80px; width: 100%; display: flex; justify-content: space-between; align-items: center">
                         <div style="display:flex; column-gap: 20px; align-items: center; height: 100%">
                             <div id="minus-btn" style="height: 50px; width: 50px; border: 1px solid #333; border-radius: 50%; text-align: center; cursor: pointer"> <span style="font-size: 30px; color: #333"><i class="icon-minus"></i></span></div>
-                            <div id="quantity-display"><span style="font-size: 40px; color: #333; font-weight: 700; ">1</span></div>
+                            <div id="quantity-display"><div id="quantity" style="font-size: 40px; color: #333; font-weight: 700; ">1</div></div>
                             <div id="plus-btn" style="height: 50px; width: 50px; border: 1px solid #333; border-radius: 50%; text-align: center; cursor: pointer "> <span style="font-size: 30px; color: #333"><i class="icon-plus"></i></span></div>
                         </div>
                         <div id="result">
-                            <div style="width: 240px; background-color: red; padding: 12px 20px; border-radius: 40px; display:flex; justify-content: space-between; cursor: pointer">
+                            <a id="add" style="width: 240px; background-color: red; padding: 12px 20px; border-radius: 40px; display:flex; justify-content: space-between; cursor: pointer">
                                 <span style="color: white; font-weight: 700; font-size: 20px">Thêm</span>
                                 <span id="price" style="color: white; font-weight: 700; font-size: 20px">@Model.price</span>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -62,13 +62,25 @@
     }
 
     function updateQuantity() {
-        document.getElementById('quantity-display').innerHTML = `<span style="font-size: 40px; color: #333; font-weight: 700;">${quantity}</span>`;
+        document.getElementById('quantity-display').innerHTML = `<span id="quantity" style="font-size: 40px; color: #333; font-weight: 700;">${quantity}</span>`;
         document.getElementById('price').textContent = `${formatPrice(quantity * price)}`;
     }
 
     document.getElementById('plus-btn').addEventListener('click', function() {
         quantity++;
         updateQuantity();
+    });
+
+    document.getElementById('result').addEventListener('click', function () {
+        const quantity = document.getElementById('quantity').innerText;
+
+        var url = "/Home/AddCart?Id=" + @Model.id+ "&view= /Menu" + "&quantity=" + quantity;
+
+        document.getElementById('add').href = url;
+
+        @*window.location.href =@Url.Action("AddCart", "Home", new { id = Model.id, view = "Menu", quantity = quantityX })*@
+
+
     });
 
     document.getElementById('minus-btn').addEventListener('click', function() {

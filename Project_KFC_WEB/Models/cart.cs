@@ -18,13 +18,26 @@ namespace Project_KFC_WEB.Models
 
         public int? quantity { get; set; }
 
-        public double? totalPrice { 
-            get {
+        public double? totalPrice
+        {
+            get
+            {
                 if (quantity > 0)
                 {
-                    return quantity * food.price;
+                    if (food.discount > 0)
+                    {
+                        return quantity * (food.price * ((100 - food.discount) / 100));
+                    }
+                    else
+                    {
+                        return quantity * food.price;
+                    }
                 }
                 else return 0;
+            }
+            set
+            {
+
             }
         }
 

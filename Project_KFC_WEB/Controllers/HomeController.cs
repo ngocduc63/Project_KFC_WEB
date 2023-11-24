@@ -70,13 +70,71 @@ namespace Project_KFC_WEB.Controllers
             return View(db.foods.ToList().FirstOrDefault( item => item.id == id));
         }
 
-        public ActionResult Cart()
+        public ActionResult Cart(bool success = false)
         {
             List<cart> carts = Session["cartUser"] as List<cart>;
             ViewBag.listFood = db.foods.ToList();
-            ViewBag.quantityCart = carts.Count;
+            ViewBag.quantityCart = carts == null ? 0 : carts.Count;
+
+            if (success) ViewBag.success = success;
 
             return View(carts);
+        }
+
+        public ActionResult InsertCart()
+        {
+            List<cart> carts = new List<cart>();
+            if (Session["cartUser"] as List<cart> == null)
+            {
+                Session["cartUser"] = new List<cart>();
+            }
+            else
+            {
+                carts = Session["cartUser"] as List<cart>;
+            }
+
+            foreach (var item in carts)
+            {
+                db.carts.Add(item);
+                db.SaveChanges();
+            }
+            
+
+            Session["cartUser"] = null;
+
+            return RedirectToAction("Cart", new { success = true});
+        }
+
+        public ActionResult UpdateCart(int? id, int? quantity, bool plus)
+        {
+            List<cart> carts = new List<cart>();
+            if (Session["cartUser"] as List<cart> == null)
+            {
+                return RedirectToAction("Cart");
+            }
+            else
+            {
+                carts = Session["cartUser"] as List<cart>;
+            }
+
+            var checkCart = carts.Find(item => item.idFood == id);
+
+            if (checkCart != null && quantity > 0) {
+                if (plus)
+                {
+                    carts[carts.FindIndex(item => item.idFood == checkCart.idFood)].quantity = checkCart.quantity + 1;
+                }else
+                {
+                    if(checkCart.quantity - 1  != 0)
+                    {
+                        carts[carts.FindIndex(item => item.idFood == checkCart.idFood)].quantity = checkCart.quantity - 1;
+                    }
+                }
+            }
+
+            Session["cartUser"] = carts;
+
+            return RedirectToAction("Cart");
         }
 
         public ActionResult AddCart(int? id, string view = "Index" ,int quantity = 1)
@@ -95,13 +153,25 @@ namespace Project_KFC_WEB.Controllers
                 }
 
                 var userName = Session["userName"] == null ? "admin" : Session["userName"] as string;
+                var checkCart = carts.Find(item => item.idFood == id);
 
-                cart cart = new cart();
-                cart.idFood = id;
-                cart.userName = userName;
-                cart.quantity = quantity;
+                if (checkCart == null)
+                {
+                    cart cart = new cart();
+                    cart.idFood = id;
+                    cart.userName = userName;
+                    cart.quantity = quantity;
+                    cart.food = db.foods.ToList().Find(item => item.id == id);
+                    cart.account = db.accounts.ToList().Find(item => item.userName == userName);
 
-                carts.Add(cart);
+                    carts.Add(cart);
+                }
+                else
+                {
+                    carts[carts.FindIndex(item => item.id == checkCart.id)].quantity = checkCart.quantity + quantity;
+                }
+
+                
 
                 Session["cartUser"] = carts;
 
@@ -109,7 +179,10 @@ namespace Project_KFC_WEB.Controllers
                 index = db.foodCategories.ToList().FindIndex(item => item.id == idCategory);
             }
 
+            if (view != "index") view = "Menu";
+
             return RedirectToAction(view, new { index = index});
         }
+
     }
 }
