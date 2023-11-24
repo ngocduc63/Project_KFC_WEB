@@ -57,7 +57,10 @@
         </section>*@
     <!-- Main content -->
     <section class="content">
-        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; ">Quản lí giỏ hàng</span>
+        <div style="width: 100%; display: flex; justify-content: center">
+
+            <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; font-size: 26px">Quản lí đơn hàng</span>
+        </div>
         @using (Html.BeginForm("Index", "Carts", FormMethod.Get, new { @class = "sidebar-form", style = "height: 150px; border: none;" }))
         {
             <div style="display:flex; column-gap: 30px">

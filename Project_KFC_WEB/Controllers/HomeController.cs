@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Project_KFC_WEB.Models;
+using System.Data.Entity;
 
 namespace Project_KFC_WEB.Controllers
 {
@@ -93,8 +94,15 @@ namespace Project_KFC_WEB.Controllers
                 carts = Session["cartUser"] as List<cart>;
             }
 
+            string userName = Session["userName"] as string  == null ? "admin" : Session["userName"] as string;
+
             foreach (var item in carts)
             {
+                item.id = -1;
+                item.food = null;
+                item.account = null;
+
+               
                 db.carts.Add(item);
                 db.SaveChanges();
             }

@@ -57,7 +57,10 @@
         </section>*@
     <!-- Main content -->
     <section class="content">
-        <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; ">Quản Lí loại món ăn</span>
+        <div style="width: 100%; display: flex; justify-content: center">
+
+            <span style="font-size: x-large; padding-left: 10px; font-weight: 700; color: #333; font-size: 26px">Quản lí loại món ăn</span>
+        </div>
         @using (Html.BeginForm("Index", "FoodCategories", FormMethod.Get, new { @class = "sidebar-form", style = "border: none;" }))
         {
             <a href="@Url.Action("Index", "FoodCategories", new {  page = 1, isReset = true})" class="btn btn-info btn-reset" style="color: #fff !important; background-color: #5bc0de !important; border-color: #46b8da !important; ">Tải lại loại món ăn</a>

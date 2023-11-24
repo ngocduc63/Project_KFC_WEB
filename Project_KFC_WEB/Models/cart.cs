@@ -22,9 +22,9 @@ namespace Project_KFC_WEB.Models
         {
             get
             {
-                if (quantity > 0)
+                if (quantity != null && quantity > 0)
                 {
-                    if (food.discount > 0)
+                    if (food.discount != null && food.discount > 0)
                     {
                         return quantity * (food.price * ((100 - food.discount) / 100));
                     }
@@ -34,10 +34,6 @@ namespace Project_KFC_WEB.Models
                     }
                 }
                 else return 0;
-            }
-            set
-            {
-
             }
         }
 
