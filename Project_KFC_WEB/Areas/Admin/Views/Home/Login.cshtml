@@ -9,6 +9,21 @@
 @{
     Layout = null;
 }
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-language" content="vi" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>Đăng nhập hệ thống</title>
+    <link rel="shortcut icon" href="https://static.kfcvietnam.com.vn/images/web/kfc-logo.svg?v=5.0" />
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <!-- Bootstrap 3.3.5 -->
+</head>
 <style>
     /*
  * Specific styles of signin component
@@ -159,18 +174,23 @@
         <p id="profile-name" class="profile-name-card"></p>
         @using (Html.BeginForm("CheckLogin", "Home", FormMethod.Get, new { @class = "form-signin" }))
         {
-    <span id="reauth-email" class="reauth-email"></span>
-                    <input type="text" id="inputUserName" name="inputUserName" class="form-control" placeholder="Tên đăng nhập..." required autofocus>
-                                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Mật khẩu" required style="margin-top: 15px;">
-                                                    <div id="remember" class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" value="remember-me"> Nhớ đăng nhập
-                                                        </label>
-                                                    </div>
-                                                                    <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Đăng nhập</button>}
+            <span id="reauth-email" class="reauth-email"></span>
+            <input type="text" id="inputUserName" name="inputUserName" class="form-control" placeholder="Tên đăng nhập..." required autofocus>
+            <input type="password" class="form-control"  id="inputPassword" name="inputPassword" placeholder="Mật khẩu" required style="margin-top: 15px;">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+            <div id="remember" class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Nhớ đăng nhập
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Đăng nhập</button>}
         @if (ViewBag.message != null)
         {
-    <div class="text-danger">@ViewBag.message</div>}
+            <div class="text-danger">@ViewBag.message</div>}
     </div>
 </div>
 <script>
