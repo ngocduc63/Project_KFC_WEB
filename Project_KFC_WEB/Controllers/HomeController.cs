@@ -96,7 +96,7 @@ namespace Project_KFC_WEB.Controllers
                 carts = Session["cartUser"] as List<cart>;
             }
 
-            string userName = Session["userName"] as string  == null ? "admin" : Session["userName"] as string;
+            string userName = Session["userName"] as string  == null ? db.accounts.ToList()[0].userName : Session["userName"] as string;
 
             foreach (var item in carts)
             {
