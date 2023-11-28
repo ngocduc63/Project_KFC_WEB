@@ -19,7 +19,7 @@
         {
             <div style="display: flex; justify-content: space-between; margin: 0 -30px ">
                 <div class="col-8">
-                    @foreach (var item in Model)
+                    @foreach (var item in ViewBag.cartPage)
                     {
                         string priceVND = double.Parse($"{item.totalPrice}").ToString("#,###", new System.Globalization.CultureInfo("vi-VN")) + "đ";
 
@@ -89,6 +89,13 @@
                         </div>
 
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div style="display:flex; column-gap: 10px">
+                    <a href="@Url.Action("Cart", "Home", new {  page = 1})" class="btn btn-info">Trang đầu</a>
+                    <a href="@Url.Action("Cart", "Home", new {  page = Convert.ToInt32(ViewBag.currentPage) + 1})" class="btn btn-info">Trang tiếp</a>
+                    <a href="@Url.Action("Cart", "Home", new {  page = Convert.ToInt32(ViewBag.totalPages)})" class="btn btn-info">Trang cuối</a>
                 </div>
             </div>
         }

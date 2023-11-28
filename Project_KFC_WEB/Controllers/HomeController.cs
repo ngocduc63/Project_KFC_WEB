@@ -71,7 +71,7 @@ namespace Project_KFC_WEB.Controllers
             return View(db.foods.ToList().FirstOrDefault( item => item.id == id));
         }
 
-        public ActionResult Cart(bool success = false)
+        public ActionResult Cart(int page = 1, bool success = false)
         {
             List<cart> carts = Session["cartUser"] as List<cart>;
             ViewBag.listFood = db.foods.ToList();
@@ -80,6 +80,37 @@ namespace Project_KFC_WEB.Controllers
             ViewBag.Length = db.foodCategories.ToList().Count();
 
             if (success) ViewBag.success = success;
+
+            List<cart> cartPage = carts;
+
+            if (carts != null && carts.Count() > 0)
+            {
+                //page
+                int itemsPerPage = 3;
+                int totalItems = carts.Count();
+                int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+                page = Math.Max(1, Math.Min(page, totalPages));
+
+                var startIndex = (page - 1) * itemsPerPage;
+                var endIndex = Math.Min(startIndex + itemsPerPage - 1, totalItems - 1);
+
+
+                if (startIndex < 0 || startIndex >= totalItems)
+                {
+                    cartPage = null;
+                }
+                else
+                {
+                    cartPage = carts.GetRange(startIndex, endIndex - startIndex + 1);
+                }
+
+                ViewBag.currentPage = page;
+                Session["currentPageCartUser"] = page;
+                ViewBag.totalPages = totalPages;
+            }
+
+            ViewBag.cartPage = cartPage;
 
             return View(carts);
         }
@@ -143,7 +174,7 @@ namespace Project_KFC_WEB.Controllers
 
             Session["cartUser"] = carts;
 
-            return RedirectToAction("Cart");
+            return RedirectToAction("Cart", new { page = (int)Session["currentPageCartUser"] });
         }
 
         public ActionResult AddCart(int? id, string view = "Index" ,int quantity = 1)
@@ -218,7 +249,7 @@ namespace Project_KFC_WEB.Controllers
             }
 
 
-            return RedirectToAction("Cart");
+            return RedirectToAction("Cart" , new { page = (int) Session["currentPageCartUser"] });
         }
 
     }

@@ -1,4 +1,6 @@
 ﻿
+@model Project_KFC_WEB.Models.account
+
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -54,9 +56,9 @@
     }
 </style>
 
-<div style="margin-top: 120px;" >
+<div style="margin-top: 120px;">
     <div class="container">
-        <div >
+        <div>
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                     <div class="card">
@@ -64,8 +66,8 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                                 <div class="mt-3">
-                                    <h4>John Doe</h4>
-                                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                    <h4>@Model.name</h4>
+                                    <p class="text-muted font-size-sm">@Model.userName</p>
                                 </div>
                             </div>
                         </div>
@@ -73,70 +75,161 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="" style="margin-top: 10px">Họ và tên</h6>
+                        @using (Html.BeginForm("ChangeProfile", "Login", FormMethod.Get))
+                        {
+                            <div class="card-body">
+                                <div class="row">
+                                    @if (ViewBag.message != null)
+                                    {
+                                        <div class="text-danger ml-5" style="font-size: 20px">@ViewBag.message</div>
+                                    }
                                 </div>
-                                <input type="text" id="form3Example3" class="form-control form-control-lg col-sm-9 text-secondary" name="emailLogin" style="border:none"
-                                       placeholder="Họ tên của bạn" value="admin" />
-                            </div>
-                            <hr>
-                            <div class="row" >
-                                <div class="col-sm-3">
-                                    <h6 class="" style="margin-top: 10px">Email</h6>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="" style="margin-top: 10px">Họ và tên</h6>
+                                    </div>
+                                    <input type="text" id="form3Example3" class="form-control form-control-lg col-sm-9 text-secondary" name="name" style="border:none"
+                                           placeholder="Họ tên của bạn" value="@Model.name" />
                                 </div>
-                                <input type="email" id="form3Example3" class="form-control form-control-lg col-sm-9 text-secondary" name="emailLogin" style="border:none"
-                                       placeholder="Nhập email của bạn"  value="eamil@eamil.com"/>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="" style="margin-top: 10px">Số điện thoại</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="" style="margin-top: 10px">Email</h6>
+                                    </div>
+                                    <div class=" col-sm-9 text-secondary" style="font-size: 1.25rem">
+                                        @Model.userName
+                                    </div>
+
                                 </div>
-                                <input type="text" id="form3Example3" class="form-control form-control-lg col-sm-9 text-secondary" name="emailLogin" style="border:none"
-                                       placeholder="Nhập số điện thoại của bạn" value="0123456" />
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class=" " style="margin-top: 10px">Địa chỉ</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="" style="margin-top: 10px">Số điện thoại</h6>
+                                    </div>
+                                    <input type="text" id="form3Example3" class="form-control form-control-lg col-sm-9 text-secondary" name="phone" style="border:none"
+                                           placeholder="Nhập số điện thoại của bạn" value="@Model.phone" />
                                 </div>
-                                <input type="text" id="form3Example3" class="form-control form-control-lg col-sm-9 text-secondary" name="emailLogin" style="border:none"
-                                       placeholder="Nhập địa chỉ của bạn" value="hà nội" />
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Mật khẩu</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class=" " style="margin-top: 10px">Địa chỉ</h6>
+                                    </div>
+                                    <input type="text" id="form3Example3" class="form-control form-control-lg col-sm-9 text-secondary" name="address" style="border:none"
+                                           placeholder="Nhập địa chỉ của bạn" value="@Model.address" />
                                 </div>
-                                <div class="col-sm-9 text-secondary" style="display: flex; column-gap: 30px; align-items: center">
-                                    <div>********</div>
-                                    <div class="">
-                                        <a class="btn btn-info " href="#" style="height: 34px !important">Edit</a>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Mật khẩu</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary" style="display: flex; column-gap: 30px; align-items: center">
+                                        <div>********</div>
+                                        <div class="">
+                                            <div class="btn btn-info " data-toggle="modal" data-target="#exampleModalCenter" style="height: 34px !important">Đổi mật khẩu</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-info " type="submit" style="height: 34px !important">Chỉnh sửa</button>
                                     </div>
                                 </div>
-                                
+
                             </div>
-                            <hr>
+                        }
+                    </div>
+                    <div class="row">
+                        <div style="font-size: 30px; margin-bottom: 20px; font-weight: 700; color: #333">Sản phẩm đã đặt</div>
+                        @if (ViewBag.cartPage != null)
+                        {
+                            foreach (var item in ViewBag.cartPage)
+                            {
+                                string priceVND = double.Parse($"{item.totalPrice}").ToString("#,###", new System.Globalization.CultureInfo("vi-VN")) + "đ";
+
+                                <div class="row" style="height: 200px; margin-bottom: 15px ;box-shadow: 0 1px 6px 0 rgba(0,0,0,.2); border-radius: 8px; display: flex; background-color: white">
+                                    <div style="display: flex; align-items: center" class="col-4">
+                                        <img src="~/Upload/@item.food.image" style="width: 100%" class="zoom" />
+                                    </div>
+                                    <div class="col-8" style="display: flex; justify-content: space-between; align-items: center">
+                                        <div class="col-7">
+                                            <div style="color: #333; font-size: 20px; font-weight: 700">@item.food.name</div>
+                                            <div style="color: #333; font-size: 16px;">@item.food.description</div>
+                                            <div style="margin-top: 10px;">
+                                                @*<a href="@Url.Action("DeleteCart", "Home", new { id = item.idFood})" style="color: #333 !important; font-size: 20px!important; font-weight: 700!important; text-decoration: underline!important; cursor: pointer!important">Mua lại</a>*@
+                                            </div>
+                                        </div>
+                                        <div class="col-3" style="display: flex; justify-content: center; flex-wrap: wrap">
+                                            <div style="display:flex; column-gap: 20px; align-items: center; height: 100%">
+                                                <a id="minus-btn" style="height: 30px; width: 30px; border: 1px solid #333; border-radius: 50%; text-align: center; cursor: pointer"> <span style="font-size: 18px; color: #333"><i class="icon-minus"></i></span></a>
+                                                <div id="quantity-display"><span style="font-size: 20px; color: #333; font-weight: 700; ">@item.quantity</span></div>
+                                                <a id="plus-btn" style="height: 30px; width: 30px; border: 1px solid #333; border-radius: 50%; text-align: center; cursor: pointer "> <span style="font-size: 18px; color: #333"><i class="icon-plus"></i></span></a>
+                                            </div>
+                                            <div id="result">
+                                                <span id="price" style="color: #333; font-weight: 700; font-size: 20px">@priceVND</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <a class="btn btn-info " href="#" style="height: 34px !important">Edit</a>
+                                <div style="display:flex; column-gap: 10px">
+                                    <a href="@Url.Action("Profile", "Login", new {  page = 1})" class="btn btn-info">Trang đầu</a>
+                                    <a href="@Url.Action("Profile", "Login", new {  page = Convert.ToInt32(ViewBag.currentPage) + 1})" class="btn btn-info">Trang tiếp</a>
+                                    <a href="@Url.Action("Profile", "Login", new {  page = Convert.ToInt32(ViewBag.totalPages)})" class="btn btn-info">Trang cuối</a>
                                 </div>
                             </div>
-
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="text-danger">Giỏ hàng của bạn trống</div>
+                        }
                     </div>
-                    <div class="row gutters-sm">
-                        
-                    </div>
-
-
-
                 </div>
             </div>
 
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        @using (Html.BeginForm("ChangePassword", "Login", FormMethod.Get))
+        {
+            @Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Đổi mật khẩu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body row" style="justify-content: center; row-gap: 20px">
+                    <div class="" style="width:80%; ">
+                        <input type="password" id="form3Example3" class="form-control form-control-lg text-secondary" name="passwordLast"
+                               placeholder="Nhập mật khẩu hiện tại của bạn" />
+                    </div>
+
+                    <div style="width:80%; ">
+
+                        <input type="password" id="form3Example3" class="form-control form-control-lg text-secondary" name="passwordNew1"
+                               placeholder="Nhập mật khẩu cũ của bạn" />
+                    </div>
+
+                    <div style="width:80%; ">
+
+                        <input type="password" id="form3Example3" class="form-control form-control-lg text-secondary" name="passwordNew2"
+                               placeholder="Nhập lại mật khẩu mới của bạn" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
