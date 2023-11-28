@@ -19,6 +19,11 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
             
             if (isLogin)
             {
+                ViewBag.countUser = db.accounts.ToList().Count();
+                ViewBag.countFoodCategory = db.foodCategories.ToList().Count();
+                ViewBag.countFood = db.foods.ToList().Count();
+                ViewBag.countCart = db.carts.ToList().Count();
+
                 return View();
             }
 

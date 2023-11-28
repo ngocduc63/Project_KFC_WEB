@@ -76,6 +76,8 @@ namespace Project_KFC_WEB.Controllers
             List<cart> carts = Session["cartUser"] as List<cart>;
             ViewBag.listFood = db.foods.ToList();
             ViewBag.quantityCart = carts == null ? 0 : carts.Count;
+            ViewBag.foodCategories = db.foodCategories.ToList();
+            ViewBag.Length = db.foodCategories.ToList().Count();
 
             if (success) ViewBag.success = success;
 

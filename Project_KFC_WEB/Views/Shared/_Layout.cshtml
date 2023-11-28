@@ -88,14 +88,14 @@
                                 <li>
                                     <a href="@Url.Action("Menu", "Home")" class="my-top header-item" style="font-weight: 700; font-size: 20px; cursor: pointer;">THỰC ĐƠN</a>
                                 </li>
-                                <li><a href="@Url.Action("Menu", "Home")" class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">KHUYẾN MÃI</a></li>
+                                <li><a href="@Url.Action("Menu", "Home", new { index = 1})" class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">MÓN MỚI</a></li>
                                 <li><a href="@Url.Action("Menu", "Home")" class="my-top" style="font-weight: 700; font-size: 20px; cursor: pointer;">VỀ NHÀ HÀNG</a></li>
                             </ul>
                         </nav>
                     </div>
-                    <div class="icons">
-                        <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
-                        <a href="#" class="icons-btn d-inline-block"><span class="icon-heart-o"></span></a>
+                    <div class="icons" style="display: flex; align-items: center; column-gap: 20px">
+                        <a class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+                        <a href="@Url.Action("Index", "Login")" class="icons-btn d-inline-block"><span class="icon-user" style="font-size: 30px;"></span></a>
                         <a href="@Url.Action("Cart", "Home")" class="icons-btn d-inline-block bag" style="position: relative">
                             <img style="height:50px; width: 50px; " src="~/Data/images/cart.png" />
                             @if (ViewBag.quantityCart > 0)
@@ -111,27 +111,52 @@
             <div style="">
                 @RenderBody()
             </div>
-
-            <footer class="site-footer custom-border-top">
-                <div class="container">
-
-
+        </div>
+        
+    </div>
+    <footer style="padding-bottom: 50px; background-color: #000" class="site-footer custom-border-top">
+        <div>
+            <div style="display: flex; justify-content: space-around">
+                <div style="display: flex; flex-direction: column ">
+                    <div style="font-size: 20px; font-weight: 600; color: white">Danh mục món ăn</div>
+                    @for (int i = 0; i < ViewBag.Length; i++)
+                    {
+                        <a href="@Url.Action("Menu", "Home", new { index = i})" style="font-size: 16px; font-weight: 500 !important; color: #8c92a0 !important; cursor: pointer; display: block">@ViewBag.foodCategories[i].name</a>
+                    }
                 </div>
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-            <div class="col-md-12">
-                <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This code is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://github.com/ngocduc63" target="_blank" class="text-danger">Đức Độ</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
+                <div>
+                    <div style="font-size: 20px; font-weight: 600; color: white">Về KFC</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Câu chuyện của chúng tôi</div>
+                    <div style="font-size: 16px; font-weight: 500;">Tin khuyến mãi </div>
+                    <div style="font-size: 16px; font-weight: 500;">Tin tức KFC</div>
+                    <div style="font-size: 16px; font-weight: 500;">Tuyển dụng KFC</div>
+                </div>
+                <div>
+                    <div style="font-size: 20px; font-weight: 600; color: white">Liên hệ KFC</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Theo dõi đơn hàng</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Hệ thống nhà hàng</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Liên hệ KFC</div>
+                </div>
+                <div>
+                    <div style="font-size: 20px; font-weight: 600; color: white">Chính sách</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Chính sách hoạt động</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Chính sách và quy định</div>
+                    <div style="font-size: 16px; font-weight: 500; ">Chính sách và bảo mật thông tin</div>
+                </div>
             </div>
+            <div class="row pt-5 mt-5 text-center">
+                <div class="col-md-12">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This code is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://github.com/ngocduc63" target="_blank" class="text-danger">Đức Độ</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
 
+            </div>
         </div>
-    </div>
     </footer>
-    </div>
 
     <script src="~/Data/js/jquery-3.3.1.min.js"></script>
     <script src="~/Data/js/jquery-ui.js"></script>
