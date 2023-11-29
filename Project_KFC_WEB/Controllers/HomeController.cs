@@ -154,8 +154,8 @@ namespace Project_KFC_WEB.Controllers
                 else
                 {
                     // new cart
-
                     item.id = -1;
+                    item.userName = userName;
                     item.food = null;
                     item.account = null;
 
@@ -167,6 +167,7 @@ namespace Project_KFC_WEB.Controllers
             
 
             Session["cartUser"] = null;
+            Session["discount"] = null;
 
             return RedirectToAction("Cart", new { success = true});
         }
@@ -276,6 +277,18 @@ namespace Project_KFC_WEB.Controllers
 
 
             return RedirectToAction("Cart" , new { page = (int) Session["currentPageCartUser"] });
+        }
+
+
+        public ActionResult CheckDiscount()
+        {
+            var discount = Request.QueryString["discount"];
+
+            var code = db.discountCodes.ToList().Find(item => item.code == discount);
+
+            if (code != null) Session["discount"] = code.discount;
+
+            return RedirectToAction("Cart", "Home");
         }
 
     }
