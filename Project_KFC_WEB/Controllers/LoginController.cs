@@ -30,6 +30,14 @@ namespace Project_KFC_WEB.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            Session["userName"] = null;
+            Session["isLoginUser"] = null;
+
+            return RedirectToAction("Index", "Login");
+        }
+
         public ActionResult Profile(int? result = 3, int page = 1)
         {
 
@@ -92,7 +100,7 @@ namespace Project_KFC_WEB.Controllers
                 ViewBag.totalPages = totalPages;
             }
 
-            ViewBag.cartPage = cartPage;
+            ViewBag.cartPage = cartPage.Count > 0 ? cartPage : null;
 
             return View(acc);
         }

@@ -131,12 +131,28 @@ namespace Project_KFC_WEB.Controllers
 
             foreach (var item in carts)
             {
-                item.id = -1;
-                item.food = null;
-                item.account = null;
+                var cartLast = db.carts.ToList().Find(cart => cart.idFood == item.idFood && cart.userName == userName);
 
-                db.carts.Add(item);
-                db.SaveChanges();
+                if (cartLast != null)
+                {
+                    // update quantity
+                    cartLast.quantity = cartLast.quantity + item.quantity;
+
+                    db.Entry(cartLast).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    // new cart
+
+                    item.id = -1;
+                    item.food = null;
+                    item.account = null;
+
+                    db.carts.Add(item);
+                    db.SaveChanges();
+                }
+                
             }
             
 
