@@ -7,12 +7,18 @@
 
 <div style="margin-top: 120px;" class="container">
 
-    <div style="position: relative; padding-bottom: 100px" >
+    <div style="position: relative; padding-bottom: 100px">
         <div style="font-weight: 700; font-size: 28px; color: #333; margin-bottom: 15px; ">GIỎ HÀNG CỦA BẠN</div>
 
         @if (ViewBag.success != null && ViewBag.success)
         {
             <div style="font-weight: 700; font-size: 29px; color: red; margin-bottom: 15px">Chúc mừng bạn đặt hàng thành công.</div>
+        }
+
+        @if (ViewBag.error != null)
+        {
+            <div  class="col-8 text-danger" style="font-weight: 700; font-size: 20px; margin-bottom: 15px">Bạn cần đăng nhập để thanh toán giỏ hàng. Đăng nhập <a href="@Url.Action("Index", "Login")" style="color: #333 !important; font-size: 22px; cursor: pointer">tại đây</a> ...</div>
+
         }
 
         @if (Model != null && Model.Count() > 0)
@@ -116,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            
+
         }
         else
         {

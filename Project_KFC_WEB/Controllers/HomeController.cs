@@ -68,10 +68,13 @@ namespace Project_KFC_WEB.Controllers
             ViewBag.index = db.foodCategories.ToList().FindIndex(item => item.id == idCategory);
             ViewBag.quantityCart = carts.Count;
 
+            var discount = db.foods.ToList().FirstOrDefault(item => item.id == id).discount;
+            ViewBag.discount =  discount != null && discount > 0 ? discount : -1 ;
+
             return View(db.foods.ToList().FirstOrDefault( item => item.id == id));
         }
 
-        public ActionResult Cart(int page = 1, bool success = false)
+        public ActionResult Cart(int page = 1, bool success = false, bool checkUser = true)
         {
             List<cart> carts = Session["cartUser"] as List<cart>;
             ViewBag.listFood = db.foods.ToList();
@@ -80,6 +83,8 @@ namespace Project_KFC_WEB.Controllers
             ViewBag.Length = db.foodCategories.ToList().Count();
 
             if (success) ViewBag.success = success;
+
+            if (!checkUser) ViewBag.error = "Bạn chưa đăng nhập";
 
             List<cart> cartPage = carts;
 
@@ -127,7 +132,12 @@ namespace Project_KFC_WEB.Controllers
                 carts = Session["cartUser"] as List<cart>;
             }
 
-            string userName = Session["userName"] as string  == null ? db.accounts.ToList()[0].userName : Session["userName"] as string;
+            string userName = Session["userName"] == null ? null : Session["userName"] as string;
+            
+            if (userName == null)
+            {
+                return RedirectToAction("Cart", "Home", new { checkUser = false});
+            }
 
             foreach (var item in carts)
             {
