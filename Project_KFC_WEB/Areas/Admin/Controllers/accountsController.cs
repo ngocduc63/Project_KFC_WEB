@@ -141,6 +141,8 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
 
             if(!isLogin) return RedirectToAction("Login", "Home",new { isLogin = false });
 
+            if(string.IsNullOrEmpty(account.userName)) return View(account);
+
             if (ModelState.IsValid)
             {
                 db.accounts.Add(account);
