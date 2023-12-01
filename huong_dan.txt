@@ -1,0 +1,11 @@
+1. Tải đầy đủ asp.net frame work ở visual install
+2. Tải microsoft sql
+3. mở file sql -> excute
+4. Import lại model
+5. Copy lại các file model trong backup_model
+6. run code => hưởng thành quả (như trong video)
+
+note:
+(làm theo hướng dẫn trong video)
+(Lên trang chủ kfc tải ảnh về và vào trang admin thêm loại sản phẩm, sản phẩm theo ý bạn)
+(web quản lí: tài khoản: admin; mật khẩu: 123)
