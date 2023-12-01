@@ -1,4 +1,4 @@
-1. Tải đầy đủ asp.net frame work ở visual install
+1. Tải đầy đủ asp.net framework ở visual install
 2. Tải microsoft sql
 3. mở file sql -> excute
 4. giải nén file backup_model (ở ngoài cùng)
@@ -8,5 +8,5 @@
 
 note:
 (làm theo hướng dẫn trong video)
-(Lên trang chủ kfc tải ảnh về và vào trang admin thêm loại sản phẩm, sản phẩm theo ý bạn)
+(vào trang admin thêm loại sản phẩm, sản phẩm theo ý bạn)
 (web quản lí: tài khoản: admin; mật khẩu: 123)
