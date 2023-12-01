@@ -1,6 +1,7 @@
 1. Tải đầy đủ asp.net frame work ở visual install
 2. Tải microsoft sql
 3. mở file sql -> excute
+4. giải nén file backup_model (ở ngoài cùng)
 4. Import lại model
 5. Copy lại các file model trong backup_model
 6. run code => hưởng thành quả (như trong video)
