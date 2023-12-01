@@ -44,3 +44,5 @@ create table discountCode(
 	code varchar(50),
 	discount float,
 )
+go
+insert into account (username, passWord) values ('admin', '123');
