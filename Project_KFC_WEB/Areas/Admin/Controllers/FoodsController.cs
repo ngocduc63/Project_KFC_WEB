@@ -147,6 +147,11 @@ namespace Project_KFC_WEB.Areas.Admin.Controllers
         // GET: Admin/Foods/Create
         public ActionResult Create()
         {
+            bool isLogin = Session["login"] != null ? (bool)Session["login"] : false;
+
+            if (!isLogin) return RedirectToAction("Login", "Home", new { isLogin = false });
+
+
             ViewBag.idCategory = new SelectList(db.foodCategories, "id", "name");
             return View();
         }
