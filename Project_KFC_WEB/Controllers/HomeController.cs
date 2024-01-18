@@ -74,15 +74,41 @@ namespace Project_KFC_WEB.Controllers
             return View(db.foods.ToList().FirstOrDefault( item => item.id == id));
         }
 
+        public ActionResult Pay(bool success = false)
+        {
+            if(!success) return RedirectToAction("Cart", "Home");
+
+            List<cart> carts = Session["cartUser"] as List<cart>;
+
+            string strPay = "KFC-";
+
+            foreach (var item in carts)
+            {
+                strPay += item.idFood;
+            }
+
+            ViewBag.strPay = strPay;
+            ViewBag.totalPrice = Session["totalPrice"];
+
+            return View();
+        }
+
         public ActionResult Cart(int page = 1, bool success = false, bool checkUser = true)
         {
+            if (success)
+            {
+                ViewBag.success = success;
+
+                Session["cartUser"] = null;
+                Session["totalPrice"] = null;
+                Session["discount"] = null;
+            }
+
             List<cart> carts = Session["cartUser"] as List<cart>;
             ViewBag.listFood = db.foods.ToList();
             ViewBag.quantityCart = carts == null ? 0 : carts.Count;
             ViewBag.foodCategories = db.foodCategories.ToList();
             ViewBag.Length = db.foodCategories.ToList().Count();
-
-            if (success) ViewBag.success = success;
 
             if (!checkUser) ViewBag.error = "Bạn chưa đăng nhập";
 
@@ -120,7 +146,7 @@ namespace Project_KFC_WEB.Controllers
             return View(carts);
         }
 
-        public ActionResult InsertCart()
+        public ActionResult InsertCart(bool isPay = false)
         {
             List<cart> carts = new List<cart>();
             if (Session["cartUser"] as List<cart> == null)
@@ -164,12 +190,10 @@ namespace Project_KFC_WEB.Controllers
                 }
                 
             }
-            
 
-            Session["cartUser"] = null;
-            Session["discount"] = null;
-
-            return RedirectToAction("Cart", new { success = true});
+            if (!isPay) return RedirectToAction("Cart", "Home", new {success = true});
+                
+            return RedirectToAction("Pay", new { success = true});
         }
 
         public ActionResult UpdateCart(int? id, int? quantity, bool plus)
