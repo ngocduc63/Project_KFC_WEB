@@ -31,6 +31,11 @@ namespace Project_KFC_WEB.Controllers
             return View(db.foods.ToList());
         }
 
+        public ActionResult Location() 
+        { 
+            return View();
+        }
+
         public ActionResult Menu(int index = 0)
         {
             List<cart> carts = new List<cart>();
